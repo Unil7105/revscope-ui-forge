@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Search, Filter, Download, Plus, MoreHorizontal, Eye } from "lucide-react";
+import { Search, Filter, Download, Plus, MoreHorizontal, Eye, CheckSquare, ArrowUpDown, ChevronDown, ChevronUp, CheckCircle2, Clock, AlertCircle, XCircle } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const orders = [
   {
@@ -58,6 +62,84 @@ const orders = [
 ];
 
 const Orders = () => {
+  const navigate = useNavigate();
+  const [sortOrder, setSortOrder] = useState<"newest" | "oldest" | "highest" | "lowest">("newest");
+  const [selectedRows, setSelectedRows] = useState<string[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleRowClick = (orderId: string) => {
+    console.log(`Navigating to order details for ${orderId}`);
+    // navigate(`/orders/${orderId}`);
+  };
+
+  const handleSelectRow = (e: React.MouseEvent, orderId: string) => {
+    e.stopPropagation();
+    setSelectedRows(prev => 
+      prev.includes(orderId) 
+        ? prev.filter(id => id !== orderId) 
+        : [...prev, orderId]
+    );
+  };
+
+  const handleSelectAll = () => {
+    if (selectedRows.length === orders.length) {
+      setSelectedRows([]);
+    } else {
+      setSelectedRows(orders.map(order => order.id));
+    }
+  };
+
+  const filteredOrders = orders.filter(order => 
+    order.id.toLowerCase().includes(searchQuery.toLowerCase()) || 
+    order.customer.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case "Completed":
+        return <CheckCircle2 className="h-3.5 w-3.5 text-blue-600 mr-1" />;
+      case "Processing":
+        return <Clock className="h-3.5 w-3.5 text-slate-600 mr-1" />;
+      case "Pending":
+        return <AlertCircle className="h-3.5 w-3.5 text-yellow-600 mr-1" />;
+      case "Cancelled":
+        return <XCircle className="h-3.5 w-3.5 text-red-600 mr-1" />;
+      default:
+        return null;
+    }
+  };
+
+  const getStatusVariant = (status: string) => {
+    switch (status) {
+      case "Completed":
+        return "success";
+      case "Processing":
+        return "processing";
+      case "Pending":
+        return "pending";
+      case "Cancelled":
+        return "cancelled";
+      default:
+        return "default";
+    }
+  };
+
+  const toggleSortOrder = () => {
+    setSortOrder(prev => {
+      if (prev === "newest") return "oldest";
+      if (prev === "oldest") return "highest";
+      if (prev === "highest") return "lowest";
+      return "newest";
+    });
+  };
+
+  const getSortIcon = () => {
+    if (sortOrder === "newest" || sortOrder === "highest") {
+      return <ChevronDown className="h-4 w-4 ml-1" />;
+    }
+    return <ChevronUp className="h-4 w-4 ml-1" />;
+  };
+
   return (
     <DashboardLayout>
       <div className="space-y-6">
@@ -69,6 +151,8 @@ const Orders = () => {
               <Input
                 placeholder="Search orders..."
                 className="pl-9 w-full"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
             <Button variant="outline" size="icon">
@@ -137,54 +221,85 @@ const Orders = () => {
               <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between px-6 py-5 space-y-0">
                 <CardTitle>Order List</CardTitle>
                 <div className="flex items-center gap-2">
-                  <Select defaultValue="newest">
-                    <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder="Sort by" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="newest">Newest First</SelectItem>
-                      <SelectItem value="oldest">Oldest First</SelectItem>
-                      <SelectItem value="highest">Highest Amount</SelectItem>
-                      <SelectItem value="lowest">Lowest Amount</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  {selectedRows.length > 0 && (
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="outline" size="sm" className="mr-2">
+                          <CheckSquare className="h-4 w-4 mr-2" />
+                          Bulk Actions
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent>
+                        <DropdownMenuItem>Mark as Completed</DropdownMenuItem>
+                        <DropdownMenuItem>Mark as Processing</DropdownMenuItem>
+                        <DropdownMenuItem className="text-destructive">Cancel Orders</DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  )}
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={toggleSortOrder}
+                    className="flex items-center"
+                  >
+                    <ArrowUpDown className="h-4 w-4 mr-2" />
+                    Sort by: {sortOrder.charAt(0).toUpperCase() + sortOrder.slice(1)}
+                    {getSortIcon()}
+                  </Button>
                 </div>
               </CardHeader>
-              <CardContent className="px-6">
-                <div className="rounded-md border">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="border-b bg-muted/50">
-                        <th className="py-3 px-4 text-left font-medium">Order ID</th>
-                        <th className="py-3 px-4 text-left font-medium">Customer</th>
-                        <th className="py-3 px-4 text-left font-medium hidden md:table-cell">Date</th>
-                        <th className="py-3 px-4 text-right font-medium">Amount</th>
-                        <th className="py-3 px-4 text-center font-medium">Status</th>
-                        <th className="py-3 px-4 text-right font-medium w-[80px]"></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {orders.map((order) => (
-                        <tr key={order.id} className="border-b hover:bg-muted/50">
-                          <td className="py-3 px-4 font-medium">{order.id}</td>
-                          <td className="py-3 px-4">{order.customer}</td>
-                          <td className="py-3 px-4 hidden md:table-cell">{new Date(order.date).toLocaleDateString()}</td>
-                          <td className="py-3 px-4 text-right font-mono">${order.amount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
-                          <td className="py-3 px-4 text-center">
+              <CardContent className="px-6 pb-2">
+                <ScrollArea className="rounded-md border">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="w-[40px]">
+                          <Checkbox 
+                            checked={selectedRows.length === orders.length && orders.length > 0}
+                            onCheckedChange={handleSelectAll}
+                            aria-label="Select all"
+                          />
+                        </TableHead>
+                        <TableHead>Order ID</TableHead>
+                        <TableHead>Customer</TableHead>
+                        <TableHead className="hidden md:table-cell">Date</TableHead>
+                        <TableHead className="text-right">Amount</TableHead>
+                        <TableHead className="text-center">Status</TableHead>
+                        <TableHead className="text-right w-[80px]"></TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {filteredOrders.map((order) => (
+                        <TableRow 
+                          key={order.id} 
+                          onClick={() => handleRowClick(order.id)}
+                        >
+                          <TableCell className="py-2">
+                            <Checkbox 
+                              checked={selectedRows.includes(order.id)}
+                              onCheckedChange={(e) => handleSelectRow(e as React.MouseEvent, order.id)}
+                              aria-label={`Select order ${order.id}`}
+                              onClick={(e) => e.stopPropagation()}
+                            />
+                          </TableCell>
+                          <TableCell className="py-2 font-medium">
+                            <Badge variant="id" className="font-mono">{order.id}</Badge>
+                          </TableCell>
+                          <TableCell className="py-2">{order.customer}</TableCell>
+                          <TableCell className="py-2 hidden md:table-cell">{new Date(order.date).toLocaleDateString()}</TableCell>
+                          <TableCell className="py-2 text-right font-mono">${order.amount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</TableCell>
+                          <TableCell className="py-2 text-center">
                             <Badge 
-                              variant={
-                                order.status === "Completed" ? "default" : 
-                                order.status === "Processing" ? "secondary" : 
-                                order.status === "Pending" ? "warning" : 
-                                "destructive"
-                              }
+                              variant={getStatusVariant(order.status)}
+                              className="inline-flex items-center"
                             >
+                              {getStatusIcon(order.status)}
                               {order.status}
                             </Badge>
-                          </td>
-                          <td className="py-3 px-4 text-right">
+                          </TableCell>
+                          <TableCell className="py-2 text-right">
                             <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
+                              <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
                                 <Button variant="ghost" size="icon" className="h-8 w-8">
                                   <MoreHorizontal className="h-4 w-4" />
                                   <span className="sr-only">More</span>
@@ -192,25 +307,44 @@ const Orders = () => {
                               </DropdownMenuTrigger>
                               <DropdownMenuContent align="end">
                                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                <DropdownMenuItem>
+                                <DropdownMenuItem onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleRowClick(order.id);
+                                }}>
                                   <Eye className="mr-2 h-4 w-4" /> View Details
                                 </DropdownMenuItem>
-                                <DropdownMenuItem>Edit Order</DropdownMenuItem>
+                                <DropdownMenuItem onClick={(e) => e.stopPropagation()}>
+                                  Edit Order
+                                </DropdownMenuItem>
                                 <DropdownMenuSeparator />
-                                <DropdownMenuItem className="text-destructive">Cancel Order</DropdownMenuItem>
+                                <DropdownMenuItem 
+                                  className="text-destructive"
+                                  onClick={(e) => e.stopPropagation()}
+                                >
+                                  Cancel Order
+                                </DropdownMenuItem>
                               </DropdownMenuContent>
                             </DropdownMenu>
-                          </td>
-                        </tr>
+                          </TableCell>
+                        </TableRow>
                       ))}
-                    </tbody>
-                  </table>
-                </div>
+                      {filteredOrders.length === 0 && (
+                        <TableRow>
+                          <TableCell colSpan={7} className="h-24 text-center">
+                            No orders found.
+                          </TableCell>
+                        </TableRow>
+                      )}
+                    </TableBody>
+                  </Table>
+                </ScrollArea>
               </CardContent>
               <CardFooter className="px-6 py-4 border-t">
                 <div className="flex items-center justify-between w-full">
                   <div className="text-sm text-muted-foreground">
-                    Showing 5 of 124 orders
+                    {selectedRows.length > 0 
+                      ? `${selectedRows.length} selected of ${orders.length} orders` 
+                      : `Showing ${filteredOrders.length} of ${orders.length} orders`}
                   </div>
                   <div className="flex items-center gap-2">
                     <Button variant="outline" size="sm" disabled>Previous</Button>
