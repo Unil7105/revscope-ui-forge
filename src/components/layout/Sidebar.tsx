@@ -36,14 +36,15 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
         to={to}
         onClick={onClick}
         className={cn(
-          "flex items-center w-full gap-3 px-3 py-2 rounded-md text-sm transition-all duration-200",
+          "flex items-center w-full gap-3 px-3 py-2.5 rounded-md text-sm transition-all duration-300",
           active 
-            ? "bg-gradient-to-r from-rs-blue to-rs-blue/90 text-white shadow-sm shadow-rs-blue/20" 
-            : "text-gray-700 hover:bg-gray-100"
+            ? "bg-gradient-to-r from-rs-blue to-rs-indigo text-white shadow-md shadow-rs-blue/20 relative" 
+            : "text-gray-700 hover:bg-gray-100/70",
+          active && "after:absolute after:inset-0 after:opacity-20 after:animate-pulse-soft after:bg-white after:rounded-md"
         )}
       >
-        <Icon size={20} className={active ? "animate-pulse-soft" : ""} />
-        <span>{label}</span>
+        <Icon size={18} className={active ? "text-white animate-pulse-soft" : "text-gray-500"} />
+        <span className={active ? "font-medium" : ""}>{label}</span>
       </Link>
     </li>
   );
@@ -54,14 +55,14 @@ const Sidebar: React.FC = () => {
   const currentPath = location.pathname;
   
   return (
-    <div className="bg-white border-r border-border w-60 flex flex-col overflow-hidden shadow-sm">
+    <div className="bg-gradient-to-b from-white to-slate-50 border-r border-slate-200/70 w-60 flex flex-col overflow-hidden shadow-sm">
       {/* Logo */}
-      <div className="p-4 border-b border-border">
+      <div className="p-4 border-b border-slate-200/70">
         <Link to="/" className="flex items-center gap-2">
           <div className="bg-gradient-to-br from-rs-blue to-rs-indigo text-white p-1.5 rounded-md shadow-sm">
             <BarChart size={20} />
           </div>
-          <h1 className="font-semibold text-lg bg-gradient-to-r from-rs-text to-rs-text/80 bg-clip-text text-transparent">RevScope</h1>
+          <h1 className="font-semibold text-lg bg-gradient-to-r from-rs-text to-rs-indigo bg-clip-text text-transparent">RevScope</h1>
         </Link>
       </div>
 
@@ -70,7 +71,7 @@ const Sidebar: React.FC = () => {
         <div className="mb-2 text-xs font-medium text-gray-500 uppercase tracking-wider px-3">
           Dashboard
         </div>
-        <ul className="space-y-1 mb-6">
+        <ul className="space-y-1.5 mb-8">
           <SidebarItem icon={Home} label="Overview" to="/" active={currentPath === "/"} />
           <SidebarItem icon={BarChart} label="Analytics" to="/analytics" active={currentPath === "/analytics"} />
           <SidebarItem icon={PieChart} label="Reports" to="/reports" active={currentPath === "/reports"} />
@@ -80,7 +81,7 @@ const Sidebar: React.FC = () => {
         <div className="mb-2 text-xs font-medium text-gray-500 uppercase tracking-wider px-3">
           Sales
         </div>
-        <ul className="space-y-1 mb-6">
+        <ul className="space-y-1.5 mb-8">
           <SidebarItem icon={ShoppingCart} label="Orders" to="/orders" active={currentPath === "/orders"} />
           <SidebarItem icon={Users} label="Customers" to="/customers" active={currentPath === "/customers"} />
           <SidebarItem icon={Target} label="Pipelines" to="/pipelines" active={currentPath === "/pipelines"} />
@@ -89,23 +90,23 @@ const Sidebar: React.FC = () => {
         <div className="mb-2 text-xs font-medium text-gray-500 uppercase tracking-wider px-3">
           System
         </div>
-        <ul className="space-y-1">
+        <ul className="space-y-1.5">
           <SidebarItem icon={Settings} label="Settings" to="/settings" active={currentPath === "/settings"} />
           <SidebarItem icon={LifeBuoy} label="Support" to="/support" active={currentPath === "/support"} />
         </ul>
       </nav>
 
       {/* User account section */}
-      <div className="p-4 border-t border-border bg-gray-50/50">
-        <button className="flex items-center w-full gap-2 px-2 py-1 rounded-md text-sm text-gray-700 hover:bg-white hover:shadow-sm transition-all duration-200">
-          <div className="h-8 w-8 rounded-full bg-gradient-to-br from-rs-blue/10 to-rs-indigo/10 border border-rs-blue/20 flex items-center justify-center text-gray-700 font-medium shadow-sm">
+      <div className="p-4 border-t border-slate-200/70 bg-white/50 transition-colors duration-300 hover:bg-white/80">
+        <button className="flex items-center w-full gap-2 px-2 py-1 rounded-md text-sm text-gray-700 hover:bg-white hover:shadow-sm transition-all duration-200 group">
+          <div className="h-9 w-9 rounded-full bg-gradient-to-br from-rs-blue/10 to-rs-indigo/10 border border-rs-blue/20 flex items-center justify-center text-gray-700 font-medium shadow-sm group-hover:border-rs-blue/40 transition-colors">
             JS
           </div>
           <div className="flex-1 text-left">
             <div className="font-medium">John Smith</div>
             <div className="text-xs text-gray-500">Admin</div>
           </div>
-          <LogOut size={16} className="text-gray-400 hover:text-gray-600" />
+          <LogOut size={16} className="text-gray-400 group-hover:text-rs-red transition-colors" />
         </button>
       </div>
     </div>

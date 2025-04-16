@@ -29,10 +29,12 @@ const data = [
 
 const SalesPerformanceChart: React.FC = () => {
   return (
-    <Card className="w-full hover:shadow-lg transition-all duration-300 bg-gradient-to-br from-white to-gray-50">
-      <CardHeader>
-        <CardTitle>Sales Performance</CardTitle>
-        <CardDescription>Revenue by product category</CardDescription>
+    <Card className="w-full transition-all duration-300 hover:shadow-lg hover:translate-y-[-4px] bg-white/90 backdrop-blur-sm border border-slate-200/60">
+      <CardHeader className="pb-3">
+        <CardTitle className="text-lg font-semibold bg-gradient-to-r from-rs-text to-rs-indigo/90 bg-clip-text text-transparent">
+          Sales Performance
+        </CardTitle>
+        <CardDescription className="text-gray-500">Revenue by product category</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="h-80">
@@ -53,31 +55,36 @@ const SalesPerformanceChart: React.FC = () => {
                 formatter={(value: number) => [`$${value.toLocaleString()}`, undefined]}
                 labelStyle={{ color: "#2C3E50", fontWeight: "600" }}
                 contentStyle={{ 
-                  borderRadius: "8px", 
-                  border: "1px solid #eee", 
-                  boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                  borderRadius: "12px", 
+                  border: "1px solid rgba(238, 238, 238, 0.8)", 
+                  boxShadow: "0 8px 16px rgba(0,0,0,0.1)",
                   background: "rgba(255, 255, 255, 0.95)",
-                  backdropFilter: "blur(4px)"
+                  backdropFilter: "blur(8px)"
                 }}
                 animationDuration={300}
               />
-              <Legend />
+              <Legend 
+                wrapperStyle={{ paddingTop: '15px' }}
+                iconType="circle"
+                iconSize={8}
+                formatter={(value) => <span className="text-xs font-medium text-gray-700">{value}</span>}
+              />
               <Bar 
                 dataKey="revenue" 
-                fill="#1E90FF" 
-                radius={[4, 4, 0, 0]} 
+                fill="#6366F1" 
+                radius={[6, 6, 0, 0]} 
                 name="Revenue"
-                className="hover:opacity-90 transition-opacity"
-                fillOpacity={0.9}
+                className="hover:opacity-80 transition-opacity cursor-pointer"
+                fillOpacity={0.85}
                 isAnimationActive={true}
               />
               <Bar 
                 dataKey="target" 
-                fill="#5C6BC0" 
-                radius={[4, 4, 0, 0]} 
+                fill="#10B981" 
+                radius={[6, 6, 0, 0]} 
                 name="Target"
-                className="hover:opacity-90 transition-opacity"
-                fillOpacity={0.9}
+                className="hover:opacity-80 transition-opacity cursor-pointer"
+                fillOpacity={0.85}
                 isAnimationActive={true}
               />
             </BarChart>

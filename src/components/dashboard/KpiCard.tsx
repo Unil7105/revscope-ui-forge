@@ -30,74 +30,89 @@ const KpiCard: React.FC<KpiCardProps> = ({
   const getIcon = () => {
     switch (type) {
       case "revenue":
-        return <DollarSign className="text-rs-blue" size={20} />;
+        return <DollarSign className="text-rs-blue" size={18} />;
       case "orders":
-        return <ShoppingCart className="text-rs-indigo" size={20} />;
+        return <ShoppingCart className="text-rs-indigo" size={18} />;
       case "conversion":
-        return <BarChart className="text-rs-green" size={20} />;
+        return <BarChart className="text-rs-green" size={18} />;
       case "aov":
-        return <CreditCard className="text-rs-red" size={20} />;
+        return <CreditCard className="text-rs-red" size={18} />;
       default:
-        return <DollarSign className="text-rs-blue" size={20} />;
+        return <DollarSign className="text-rs-blue" size={18} />;
     }
   };
   
   const getChartColor = () => {
     switch (type) {
       case "revenue":
-        return "#1E90FF";
+        return "#6366F1"; // Indigo
       case "orders":
-        return "#5C6BC0";
+        return "#5C6BC0"; // Original Indigo
       case "conversion":
-        return "#2ECC71";
+        return "#10B981"; // Emerald
       case "aov":
-        return "#E74C3C";
+        return "#EF4444"; // Red
       default:
-        return "#1E90FF";
+        return "#6366F1";
     }
   };
 
   const getBgGradient = () => {
     switch (type) {
       case "revenue":
-        return "bg-gradient-to-br from-white to-blue-50";
+        return "from-white to-indigo-50/50";
       case "orders":
-        return "bg-gradient-to-br from-white to-indigo-50";
+        return "from-white to-blue-50/50";
       case "conversion":
-        return "bg-gradient-to-br from-white to-green-50";
+        return "from-white to-emerald-50/50";
       case "aov":
-        return "bg-gradient-to-br from-white to-red-50";
+        return "from-white to-red-50/50";
       default:
-        return "bg-gradient-to-br from-white to-blue-50";
+        return "from-white to-indigo-50/50";
+    }
+  };
+
+  const getIconBg = () => {
+    switch (type) {
+      case "revenue":
+        return "bg-indigo-100";
+      case "orders":
+        return "bg-blue-100";
+      case "conversion":
+        return "bg-emerald-100";
+      case "aov":
+        return "bg-red-100";
+      default:
+        return "bg-indigo-100";
     }
   };
 
   return (
-    <div className={`rs-card shadow-sm hover:shadow-md transition-all duration-300 ${getBgGradient()}`}>
+    <div className={`bg-white/90 backdrop-blur-sm rounded-xl border border-slate-200/60 shadow-sm hover:shadow-lg transition-all duration-300 hover:translate-y-[-4px] p-4 bg-gradient-to-br ${getBgGradient()}`}>
       <div className="flex items-center justify-between mb-2">
-        <div className="text-gray-500 text-sm">{title}</div>
-        <div className="p-1.5 rounded-full bg-white/80 shadow-sm">
+        <div className="text-gray-500 text-sm font-medium">{title}</div>
+        <div className={`p-2 rounded-full shadow-sm ${getIconBg()}`}>
           {getIcon()}
         </div>
       </div>
       
-      <div className="rs-stat-value">{value}</div>
+      <div className="text-2xl font-semibold font-roboto-mono">{value}</div>
       
       <div className="flex items-center gap-1 mt-1">
         {isTrendPositive ? (
-          <ArrowUpRight className="text-rs-green" size={16} />
+          <ArrowUpRight className="text-emerald-500" size={16} />
         ) : (
-          <ArrowDownRight className="text-rs-red" size={16} />
+          <ArrowDownRight className="text-red-500" size={16} />
         )}
         <span
-          className={isTrendPositive ? "rs-trend-positive" : "rs-trend-negative"}
+          className={isTrendPositive ? "text-emerald-500 font-medium" : "text-red-500 font-medium"}
         >
           {Math.abs(trend)}%
         </span>
         <span className="text-sm text-gray-500">vs last period</span>
       </div>
       
-      <div className="rs-mini-chart mt-3">
+      <div className="h-10 w-full mt-3">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
             data={chartData}
@@ -116,8 +131,7 @@ const KpiCard: React.FC<KpiCardProps> = ({
               fillOpacity={1}
               fill={`url(#gradient-${type})`}
               strokeWidth={2}
-              animationDuration={800}
-              animationBegin={100}
+              isAnimationActive={true}
             />
           </AreaChart>
         </ResponsiveContainer>
