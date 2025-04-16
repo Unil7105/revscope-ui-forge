@@ -41,8 +41,6 @@ const SalesPerformanceChart: React.FC = () => {
               data={data}
               margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
               barGap={8}
-              animationDuration={800}
-              animationBegin={100}
             >
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(0,0,0,0.06)" />
               <XAxis dataKey="name" axisLine={false} tickLine={false} />
@@ -71,6 +69,7 @@ const SalesPerformanceChart: React.FC = () => {
                 name="Revenue"
                 className="hover:opacity-90 transition-opacity"
                 fillOpacity={0.9}
+                isAnimationActive={true}
               />
               <Bar 
                 dataKey="target" 
@@ -79,6 +78,7 @@ const SalesPerformanceChart: React.FC = () => {
                 name="Target"
                 className="hover:opacity-90 transition-opacity"
                 fillOpacity={0.9}
+                isAnimationActive={true}
               />
             </BarChart>
           </ResponsiveContainer>

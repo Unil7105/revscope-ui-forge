@@ -57,8 +57,6 @@ const RevenueChart: React.FC = () => {
             <AreaChart
               data={data}
               margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
-              animationDuration={800}
-              animationBegin={100}
             >
               <defs>
                 <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
@@ -98,6 +96,7 @@ const RevenueChart: React.FC = () => {
                 activeDot={{ r: 8, stroke: '#1E90FF', strokeWidth: 2, fill: 'white' }}
                 strokeWidth={3}
                 name="Revenue"
+                isAnimationActive={true}
               />
               <Area
                 type="monotone"
@@ -108,6 +107,7 @@ const RevenueChart: React.FC = () => {
                 strokeDasharray="5 5"
                 activeDot={{ r: 6, stroke: '#E74C3C', strokeWidth: 2, fill: 'white' }}
                 name="Target"
+                isAnimationActive={true}
               />
             </AreaChart>
           </ResponsiveContainer>
