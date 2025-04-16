@@ -277,7 +277,13 @@ const Orders = () => {
                           <TableCell className="py-2">
                             <Checkbox 
                               checked={selectedRows.includes(order.id)}
-                              onCheckedChange={(e) => handleSelectRow(e as React.MouseEvent, order.id)}
+                              onCheckedChange={() => {
+                                setSelectedRows(prev => 
+                                  prev.includes(order.id) 
+                                    ? prev.filter(id => id !== order.id) 
+                                    : [...prev, order.id]
+                                );
+                              }}
                               aria-label={`Select order ${order.id}`}
                               onClick={(e) => e.stopPropagation()}
                             />
