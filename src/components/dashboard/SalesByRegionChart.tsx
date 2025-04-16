@@ -47,6 +47,28 @@ const renderCustomizedLabel = ({
   );
 };
 
+// Custom tooltip component for the pie chart
+const CustomTooltip = ({ active, payload }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-white/90 backdrop-blur-sm rounded-lg p-3 shadow-lg border border-slate-200/60">
+        <div className="flex items-center gap-2">
+          <div 
+            className="h-3 w-3 rounded-full" 
+            style={{ backgroundColor: payload[0].payload.color }}
+          />
+          <span className="text-sm font-medium">{payload[0].name}</span>
+        </div>
+        <div className="mt-1">
+          <span className="text-lg font-semibold">{payload[0].value}%</span>
+          <span className="text-xs text-gray-500 ml-1">of total sales</span>
+        </div>
+      </div>
+    );
+  }
+  return null;
+};
+
 const SalesByRegionChart: React.FC = () => {
   return (
     <Card className="w-full hover:shadow-lg transition-all duration-300 bg-gradient-to-br from-white to-gray-50">
@@ -68,24 +90,13 @@ const SalesByRegionChart: React.FC = () => {
                 innerRadius={50}
                 fill="#8884d8"
                 dataKey="value"
-                animationDuration={800}
-                animationBegin={200}
+                isAnimationActive={true}
               >
                 {data.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={entry.color} />
                 ))}
               </Pie>
-              <Tooltip 
-                formatter={(value: number) => [`${value}%`, undefined]}
-                contentStyle={{ 
-                  borderRadius: "8px", 
-                  border: "1px solid #eee", 
-                  boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-                  background: "rgba(255, 255, 255, 0.95)",
-                  backdropFilter: "blur(4px)"
-                }}
-                animationDuration={300}
-              />
+              <Tooltip content={<CustomTooltip />} />
               <Legend
                 layout="horizontal"
                 verticalAlign="bottom"

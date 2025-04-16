@@ -46,6 +46,30 @@ const RevenueChart: React.FC = () => {
   const [timeRange, setTimeRange] = useState("week");
   const [chartType, setChartType] = useState<ChartType>("area");
 
+  // Custom tooltip component
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-white/90 backdrop-blur-sm rounded-lg p-3 shadow-lg border border-slate-200/60">
+          <p className="text-sm font-semibold text-gray-700">{label}</p>
+          <div className="mt-2 space-y-1">
+            {payload.map((entry: any, index: number) => (
+              <div key={index} className="flex items-center gap-2">
+                <div 
+                  className="h-2 w-2 rounded-full" 
+                  style={{ backgroundColor: entry.color }}
+                />
+                <span className="text-sm text-gray-600">{entry.name}:</span>
+                <span className="text-sm font-medium">${entry.value.toLocaleString()}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
     <Card className="w-full transition-all duration-300 hover:shadow-lg bg-white/90 backdrop-blur-sm border border-slate-200/60">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -117,17 +141,7 @@ const RevenueChart: React.FC = () => {
                   tickLine={false} 
                   tickFormatter={(value) => `$${value / 1000}k`} 
                 />
-                <Tooltip 
-                  formatter={(value: number) => [`$${value.toLocaleString()}`, undefined]}
-                  labelStyle={{ color: "#2C3E50", fontWeight: "600" }}
-                  contentStyle={{ 
-                    borderRadius: "12px", 
-                    border: "1px solid rgba(238, 238, 238, 0.8)", 
-                    boxShadow: "0 8px 16px rgba(0,0,0,0.1)",
-                    background: "rgba(255, 255, 255, 0.95)",
-                    backdropFilter: "blur(8px)"
-                  }}
-                />
+                <Tooltip content={<CustomTooltip />} />
                 <Legend 
                   wrapperStyle={{ paddingTop: '15px' }}
                   iconType="circle"
@@ -170,17 +184,7 @@ const RevenueChart: React.FC = () => {
                   tickLine={false} 
                   tickFormatter={(value) => `$${value / 1000}k`} 
                 />
-                <Tooltip 
-                  formatter={(value: number) => [`$${value.toLocaleString()}`, undefined]}
-                  labelStyle={{ color: "#2C3E50", fontWeight: "600" }}
-                  contentStyle={{ 
-                    borderRadius: "12px", 
-                    border: "1px solid rgba(238, 238, 238, 0.8)", 
-                    boxShadow: "0 8px 16px rgba(0,0,0,0.1)",
-                    background: "rgba(255, 255, 255, 0.95)",
-                    backdropFilter: "blur(8px)"
-                  }}
-                />
+                <Tooltip content={<CustomTooltip />} />
                 <Legend 
                   wrapperStyle={{ paddingTop: '15px' }}
                   iconType="circle"
@@ -222,17 +226,7 @@ const RevenueChart: React.FC = () => {
                   tickLine={false} 
                   tickFormatter={(value) => `$${value / 1000}k`} 
                 />
-                <Tooltip 
-                  formatter={(value: number) => [`$${value.toLocaleString()}`, undefined]}
-                  labelStyle={{ color: "#2C3E50", fontWeight: "600" }}
-                  contentStyle={{ 
-                    borderRadius: "12px", 
-                    border: "1px solid rgba(238, 238, 238, 0.8)", 
-                    boxShadow: "0 8px 16px rgba(0,0,0,0.1)",
-                    background: "rgba(255, 255, 255, 0.95)",
-                    backdropFilter: "blur(8px)"
-                  }}
-                />
+                <Tooltip content={<CustomTooltip />} />
                 <Legend 
                   wrapperStyle={{ paddingTop: '15px' }}
                   iconType="circle"
