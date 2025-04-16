@@ -61,7 +61,7 @@ const AlertItem: React.FC<AlertItemProps> = ({
   };
 
   return (
-    <div className="flex gap-3 p-3 border-b border-border hover:bg-gray-50 transition-colors cursor-pointer">
+    <div className="flex gap-3 p-3 border-b border-border hover:bg-gray-50 transition-colors cursor-pointer group">
       <div className="mt-0.5">{getIcon()}</div>
       <div className="flex-1">
         <div className="flex items-center justify-between mb-1">
@@ -71,7 +71,7 @@ const AlertItem: React.FC<AlertItemProps> = ({
         <p className="text-sm text-gray-600 mb-1">{description}</p>
         <p className="text-xs text-gray-500">{timestamp}</p>
       </div>
-      <div className="flex items-center">
+      <div className="flex items-center opacity-0 group-hover:opacity-100 transition-opacity">
         <ChevronRight size={16} className="text-gray-400" />
       </div>
     </div>
@@ -79,13 +79,23 @@ const AlertItem: React.FC<AlertItemProps> = ({
 };
 
 const AlertsPanel: React.FC = () => {
+  const [isHovering, setIsHovering] = React.useState(false);
+
   return (
-    <Card className="w-full">
-      <CardHeader className="flex flex-row items-center justify-between pb-2">
+    <Card 
+      className={`w-full transition-all duration-300 hover:shadow-lg border border-slate-200/60 ${isHovering ? 'shadow-md translate-y-[-2px]' : 'shadow-sm'}`} 
+      onMouseEnter={() => setIsHovering(true)} 
+      onMouseLeave={() => setIsHovering(false)}
+    >
+      <CardHeader className="flex flex-row items-center justify-between pb-3">
         <div>
-          <CardTitle className="flex items-center gap-2">
-            <BarChart size={18} />
-            Alerts & Insights
+          <CardTitle className="text-base flex items-center gap-2">
+            <div className="p-1.5 rounded-full bg-slate-100 transition-colors">
+              <BarChart size={14} className="text-gray-700" />
+            </div>
+            <span className="bg-gradient-to-r from-rs-text to-rs-indigo/90 bg-clip-text text-transparent">
+              Alerts & Insights
+            </span>
           </CardTitle>
           <CardDescription>Key notifications requiring attention</CardDescription>
         </div>

@@ -25,7 +25,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   return (
     <div className="flex h-screen bg-rs-bg antialiased text-rs-text">
       {/* Sidebar - Hidden on Mobile */}
-      <div className="hidden md:block transition-all duration-300 animate-in slide-in-from-left-1 h-full shadow-lg">
+      <div className="hidden md:block transition-all duration-300 animate-in slide-in-from-left-1 h-full shadow-lg z-20">
         <Sidebar />
       </div>
       

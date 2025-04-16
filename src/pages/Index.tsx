@@ -12,7 +12,7 @@ const Index = () => {
   return (
     <DashboardLayout>
       {/* KPI Cards */}
-      <section className="animate-in fade-in-50 duration-300">
+      <section className="animate-in fade-in-50 duration-300 mb-6">
         <KpiCardGrid />
       </section>
 
@@ -35,7 +35,7 @@ const Index = () => {
         {/* Right Sidebar - 1 column on large screens */}
         <div className="space-y-6">
           {/* Filter Panel */}
-          <section className="animate-in fade-in-50 slide-in-from-right-2 duration-300 delay-200 sticky top-20">
+          <section className="animate-in fade-in-50 slide-in-from-right-2 duration-300 delay-200">
             <FilterPanel />
           </section>
 
