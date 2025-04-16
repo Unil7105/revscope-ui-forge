@@ -119,7 +119,7 @@ const RevenueChart: React.FC = () => {
       <CardContent className="pt-2">
         <div className="h-80">
           <ResponsiveContainer width="100%" height="100%">
-            {chartType === "area" && (
+            {chartType === "area" ? (
               <AreaChart
                 data={data}
                 margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
@@ -170,9 +170,7 @@ const RevenueChart: React.FC = () => {
                   isAnimationActive={true}
                 />
               </AreaChart>
-            )}
-
-            {chartType === "line" && (
+            ) : chartType === "line" ? (
               <LineChart
                 data={data}
                 margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
@@ -211,9 +209,7 @@ const RevenueChart: React.FC = () => {
                   isAnimationActive={true}
                 />
               </LineChart>
-            )}
-
-            {chartType === "bar" && (
+            ) : (
               <BarChart
                 data={data}
                 margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
