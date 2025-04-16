@@ -14,13 +14,17 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   
   // Add a small animation delay for better UX
   useEffect(() => {
-    setMounted(true);
+    const timer = setTimeout(() => {
+      setMounted(true);
+    }, 100);
+    
+    return () => clearTimeout(timer);
   }, []);
 
   return (
     <div className="flex h-screen bg-rs-bg antialiased text-rs-text">
       {/* Sidebar - Hidden on Mobile */}
-      <div className="hidden md:block">
+      <div className="hidden md:block transition-all duration-300 animate-in slide-in-from-left-1">
         <Sidebar />
       </div>
       
@@ -32,11 +36,11 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
         {/* Main Content Area with Scrolling */}
         <main 
           className={cn(
-            "flex-1 overflow-y-auto p-4 md:p-6 transition-opacity duration-300",
+            "flex-1 overflow-y-auto p-4 md:p-6 transition-opacity duration-500",
             mounted ? "opacity-100" : "opacity-0"
           )}
         >
-          <div className="container mx-auto max-w-7xl">
+          <div className="container mx-auto max-w-7xl animate-in fade-in-50 slide-in-from-bottom-2 duration-500">
             {children}
           </div>
         </main>

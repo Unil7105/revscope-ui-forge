@@ -26,7 +26,7 @@ import { Button } from "@/components/ui/button";
 import { 
   BarChart2, 
   LineChart as LineChartIcon, 
-  TrendingUp
+  TrendingUp,
 } from "lucide-react";
 
 // Sample data for the revenue chart
@@ -41,6 +41,14 @@ const data = [
 ];
 
 type ChartType = "area" | "bar" | "line";
+
+// Mini pill legend component
+const MiniLegendPill = ({ color, label }: { color: string, label: string }) => (
+  <div className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium hover:opacity-80 transition-opacity">
+    <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: color }}></div>
+    <span>{label}</span>
+  </div>
+);
 
 const RevenueChart: React.FC = () => {
   const [timeRange, setTimeRange] = useState("week");
@@ -94,7 +102,7 @@ const RevenueChart: React.FC = () => {
 
   return (
     <Card 
-      className={`w-full transition-all duration-300 hover:shadow-lg bg-white/90 backdrop-blur-sm border border-slate-200/60 ${isHovering ? 'shadow-md scale-[1.005]' : 'shadow-sm'}`}
+      className={`w-full transition-all duration-300 hover:shadow-lg bg-white/95 backdrop-blur-sm border border-slate-200/60 ${isHovering ? 'shadow-md scale-[1.005]' : 'shadow-sm'}`}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
@@ -104,6 +112,12 @@ const RevenueChart: React.FC = () => {
             Revenue Trend
           </CardTitle>
           <CardDescription className="text-gray-500">Daily revenue vs target</CardDescription>
+          
+          {/* Mini legend pills */}
+          <div className="flex gap-2 mt-2 animate-in fade-in-50">
+            <MiniLegendPill color="#6366F1" label="Revenue" />
+            <MiniLegendPill color="#EF4444" label="Target" />
+          </div>
         </div>
         <div className="flex items-center gap-2">
           <div className="flex items-center rounded-md border border-slate-200 p-1 bg-white/90 shadow-sm">
@@ -112,36 +126,36 @@ const RevenueChart: React.FC = () => {
               variant={chartType === "area" ? "default" : "ghost"} 
               className={`h-8 rounded-sm px-2 transition-all duration-200 ${
                 chartType === "area" 
-                  ? "bg-indigo-500 text-white shadow-indigo-200 shadow-sm" 
+                  ? "bg-indigo-500 text-white shadow-indigo-200 shadow-sm hover:bg-indigo-600" 
                   : "text-gray-500 hover:text-indigo-500 hover:bg-indigo-50"
               }`}
               onClick={() => setChartType("area")}
             >
-              <TrendingUp size={16} />
+              <TrendingUp size={16} className="transition-transform hover:scale-110" />
             </Button>
             <Button 
               size="sm" 
               variant={chartType === "line" ? "default" : "ghost"} 
               className={`h-8 rounded-sm px-2 transition-all duration-200 ${
                 chartType === "line" 
-                  ? "bg-indigo-500 text-white shadow-indigo-200 shadow-sm" 
+                  ? "bg-indigo-500 text-white shadow-indigo-200 shadow-sm hover:bg-indigo-600" 
                   : "text-gray-500 hover:text-indigo-500 hover:bg-indigo-50"
               }`}
               onClick={() => setChartType("line")}
             >
-              <LineChartIcon size={16} />
+              <LineChartIcon size={16} className="transition-transform hover:scale-110" />
             </Button>
             <Button 
               size="sm" 
               variant={chartType === "bar" ? "default" : "ghost"} 
               className={`h-8 rounded-sm px-2 transition-all duration-200 ${
                 chartType === "bar" 
-                  ? "bg-indigo-500 text-white shadow-indigo-200 shadow-sm" 
+                  ? "bg-indigo-500 text-white shadow-indigo-200 shadow-sm hover:bg-indigo-600" 
                   : "text-gray-500 hover:text-indigo-500 hover:bg-indigo-50"
               }`}
               onClick={() => setChartType("bar")}
             >
-              <BarChart2 size={16} />
+              <BarChart2 size={16} className="transition-transform hover:scale-110" />
             </Button>
           </div>
           <Select defaultValue={timeRange} onValueChange={setTimeRange}>
@@ -166,7 +180,7 @@ const RevenueChart: React.FC = () => {
               >
                 <defs>
                   <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#6366F1" stopOpacity={0.5} />
+                    <stop offset="5%" stopColor="#6366F1" stopOpacity={0.6} />
                     <stop offset="95%" stopColor="#6366F1" stopOpacity={0} />
                   </linearGradient>
                   <linearGradient id="colorTarget" x1="0" y1="0" x2="0" y2="1">
@@ -281,7 +295,7 @@ const RevenueChart: React.FC = () => {
                   fill="#6366F1" 
                   radius={[6, 6, 0, 0]} 
                   name="Revenue"
-                  className="hover:opacity-80 transition-opacity cursor-pointer"
+                  className="hover:opacity-90 transition-opacity cursor-pointer"
                   fillOpacity={0.85}
                   isAnimationActive={true}
                   animationDuration={800}
@@ -292,7 +306,7 @@ const RevenueChart: React.FC = () => {
                   fill="#EF4444" 
                   radius={[6, 6, 0, 0]} 
                   name="Target"
-                  className="hover:opacity-80 transition-opacity cursor-pointer"
+                  className="hover:opacity-90 transition-opacity cursor-pointer"
                   fillOpacity={0.85}
                   isAnimationActive={true}
                   animationDuration={1000}

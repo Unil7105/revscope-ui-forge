@@ -38,13 +38,13 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
         className={cn(
           "flex items-center w-full gap-3 px-3 py-2.5 rounded-md text-sm transition-all duration-300",
           active 
-            ? "bg-gradient-to-r from-rs-blue to-rs-indigo text-white shadow-md shadow-rs-blue/20 relative" 
-            : "text-gray-700 hover:bg-gray-100/70 hover:translate-x-0.5",
+            ? "bg-gradient-to-r from-rs-blue to-rs-indigo text-white shadow-md shadow-rs-blue/20 relative overflow-hidden" 
+            : "text-gray-700 hover:bg-gray-100/70 hover:translate-x-1",
           active && "after:absolute after:inset-0 after:opacity-20 after:animate-pulse-soft after:bg-white after:rounded-md"
         )}
       >
         <div className={cn(
-          "relative",
+          "relative z-10",
           active && "after:absolute after:inset-0 after:rounded-full after:animate-ping after:bg-white/40 after:opacity-75"
         )}>
           <Icon size={18} className={cn(
@@ -53,11 +53,18 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
           )} />
         </div>
         <span className={cn(
+          "relative z-10",
           active ? "font-medium" : "",
           "transition-all duration-300"
-        )}>{label}</span>
+        )}>
+          {label}
+        </span>
         {active && (
-          <span className="absolute right-2 w-1 h-1 rounded-full bg-white animate-pulse"></span>
+          <>
+            <span className="absolute right-2 w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
+            <div className="absolute inset-0 bg-gradient-to-r from-[rgba(255,255,255,0.1)] to-transparent opacity-20 blur-[8px]"></div>
+            <div className="absolute left-0 top-0 h-full w-1 bg-white/30"></div>
+          </>
         )}
       </Link>
     </li>
@@ -73,7 +80,7 @@ const Sidebar: React.FC = () => {
       {/* Logo */}
       <div className="p-4 border-b border-slate-200/70">
         <Link to="/" className="flex items-center gap-2 group">
-          <div className="bg-gradient-to-br from-rs-blue to-rs-indigo text-white p-1.5 rounded-md shadow-sm group-hover:shadow-md group-hover:shadow-rs-blue/20 transition-all duration-300">
+          <div className="bg-gradient-to-br from-rs-blue to-rs-indigo text-white p-1.5 rounded-md shadow-sm group-hover:shadow-md group-hover:shadow-rs-blue/20 transition-all duration-300 group-hover:scale-105">
             <BarChart size={20} className="group-hover:animate-bounce transition-all duration-100" />
           </div>
           <h1 className="font-semibold text-lg bg-gradient-to-r from-rs-text to-rs-indigo bg-clip-text text-transparent group-hover:from-rs-indigo group-hover:to-rs-blue transition-all duration-300">RevScope</h1>
@@ -112,7 +119,7 @@ const Sidebar: React.FC = () => {
 
       {/* User account section */}
       <div className="p-4 border-t border-slate-200/70 bg-white/50 transition-colors duration-300 hover:bg-white/80">
-        <button className="flex items-center w-full gap-2 px-2 py-1 rounded-md text-sm text-gray-700 hover:bg-white hover:shadow-sm transition-all duration-200 group">
+        <button className="flex items-center w-full gap-2 px-2 py-1 rounded-md text-sm text-gray-700 hover:bg-white hover:shadow-sm transition-all duration-200 group hover:scale-[1.02]">
           <div className="h-9 w-9 rounded-full bg-gradient-to-br from-rs-blue/10 to-rs-indigo/10 border border-rs-blue/20 flex items-center justify-center text-gray-700 font-medium shadow-sm group-hover:border-rs-blue/40 transition-colors group-hover:shadow-md">
             JS
           </div>

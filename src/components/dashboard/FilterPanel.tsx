@@ -23,35 +23,14 @@ import {
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { Label } from "@/components/ui/label";
-import { CalendarIcon, Users, Filter, RefreshCw, ChevronDown, X } from "lucide-react";
+import { CalendarIcon, Users, Filter, RefreshCw, ChevronDown } from "lucide-react";
 import { format } from "date-fns";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-
-// Filter Tag Component
-interface FilterTagProps {
-  label: string;
-  value: string;
-  onRemove: () => void;
-}
-
-const FilterTag: React.FC<FilterTagProps> = ({ label, value, onRemove }) => {
-  return (
-    <div className="flex items-center gap-1 text-xs bg-slate-100 text-gray-700 px-2 py-1 rounded-full group hover:bg-slate-200 transition-colors">
-      <span className="font-medium capitalize">{label}:</span> {value}
-      <button 
-        onClick={onRemove}
-        className="ml-1 text-gray-500 hover:text-gray-700 group-hover:bg-slate-300/50 rounded-full h-4 w-4 flex items-center justify-center transition-colors"
-        aria-label={`Remove ${label} filter`}
-      >
-        <X size={10} />
-      </button>
-    </div>
-  );
-};
+import FilterTag from "./FilterTag";
 
 const FilterPanel: React.FC = () => {
   const [date, setDate] = React.useState<Date | undefined>(new Date());
@@ -74,7 +53,7 @@ const FilterPanel: React.FC = () => {
 
   return (
     <Card 
-      className={`w-full transition-all duration-300 hover:shadow-lg bg-white/90 backdrop-blur-sm border border-slate-200/60 ${isHovering ? 'shadow-md translate-y-[-2px]' : 'shadow-sm'}`}
+      className={`w-full transition-all duration-300 hover:shadow-lg bg-white/95 backdrop-blur-sm border border-slate-200/60 ${isHovering ? 'shadow-md translate-y-[-2px]' : 'shadow-sm'}`}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
@@ -98,7 +77,7 @@ const FilterPanel: React.FC = () => {
               <CardContent className="space-y-4 pt-0">
                 {/* Active Filters */}
                 {Object.keys(activeFilters).length > 0 && (
-                  <div className="flex flex-wrap gap-2 pb-2 animate-in fade-in-50">
+                  <div className="flex flex-wrap gap-2 pb-3 animate-in fade-in-50 pt-2 border-b border-slate-100">
                     {Object.entries(activeFilters).map(([key, value]) => (
                       <FilterTag 
                         key={key}
@@ -109,7 +88,7 @@ const FilterPanel: React.FC = () => {
                     ))}
                     <button 
                       onClick={clearAllFilters}
-                      className="text-xs text-gray-500 hover:text-indigo-500 underline transition-colors"
+                      className="text-xs text-gray-500 hover:text-indigo-500 underline transition-colors hover:no-underline hover:bg-slate-100 px-2 py-1 rounded-full"
                     >
                       Clear all
                     </button>
@@ -123,7 +102,7 @@ const FilterPanel: React.FC = () => {
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
-                        className="w-full justify-start text-left font-normal bg-white shadow-sm border-gray-200 hover:bg-gray-50 hover:border-gray-300 transition-colors group"
+                        className="w-full justify-start text-left font-normal bg-white shadow-sm border-gray-200 hover:bg-gray-50 hover:border-gray-300 hover:scale-[1.01] transition-all duration-200 group"
                       >
                         <CalendarIcon className="mr-2 h-4 w-4 text-gray-500 group-hover:text-indigo-500 transition-colors" />
                         {date ? format(date, "PPP") : <span>Pick a date</span>}
@@ -148,7 +127,7 @@ const FilterPanel: React.FC = () => {
                     defaultValue="all" 
                     onValueChange={(value) => setActiveFilters({...activeFilters, category: value === 'all' ? 'All Categories' : value})}
                   >
-                    <SelectTrigger id="product" className="bg-white shadow-sm border-gray-200 hover:border-gray-300 transition-colors">
+                    <SelectTrigger id="product" className="bg-white shadow-sm border-gray-200 hover:border-gray-300 hover:scale-[1.01] transition-all duration-200">
                       <SelectValue placeholder="Select category" />
                     </SelectTrigger>
                     <SelectContent className="border-gray-200 shadow-md animate-in slide-in-from-top-1 zoom-in-95">
@@ -168,7 +147,7 @@ const FilterPanel: React.FC = () => {
                     defaultValue="all"
                     onValueChange={(value) => setActiveFilters({...activeFilters, region: value === 'all' ? 'All Regions' : value})}
                   >
-                    <SelectTrigger id="region" className="bg-white shadow-sm border-gray-200 hover:border-gray-300 transition-colors">
+                    <SelectTrigger id="region" className="bg-white shadow-sm border-gray-200 hover:border-gray-300 hover:scale-[1.01] transition-all duration-200">
                       <SelectValue placeholder="Select region" />
                     </SelectTrigger>
                     <SelectContent className="border-gray-200 shadow-md animate-in slide-in-from-top-1 zoom-in-95">
@@ -191,7 +170,7 @@ const FilterPanel: React.FC = () => {
                     defaultValue="all"
                     onValueChange={(value) => setActiveFilters({...activeFilters, rep: value === 'all' ? 'All Representatives' : value})}
                   >
-                    <SelectTrigger id="sales-rep" className="bg-white shadow-sm border-gray-200 hover:border-gray-300 transition-colors">
+                    <SelectTrigger id="sales-rep" className="bg-white shadow-sm border-gray-200 hover:border-gray-300 hover:scale-[1.01] transition-all duration-200">
                       <SelectValue placeholder="Select sales rep" />
                     </SelectTrigger>
                     <SelectContent className="border-gray-200 shadow-md animate-in slide-in-from-top-1 zoom-in-95">
@@ -210,18 +189,18 @@ const FilterPanel: React.FC = () => {
                   <Input 
                     id="order-id" 
                     placeholder="Enter order ID" 
-                    className="bg-white shadow-sm border-gray-200 focus:border-rs-blue/50 focus:ring-1 focus:ring-rs-blue/30 transition-colors" 
+                    className="bg-white shadow-sm border-gray-200 focus:border-rs-blue/50 focus:ring-1 focus:ring-rs-blue/30 transition-colors hover:border-gray-300 hover:scale-[1.01] transition-all duration-200" 
                   />
                 </div>
 
                 {/* Action Buttons */}
                 <div className="flex gap-2 pt-2">
-                  <Button className="flex-1 bg-gradient-to-r from-rs-blue to-rs-indigo hover:opacity-90 shadow-sm hover:shadow-md transition-all text-white active:scale-[0.98] duration-200">
+                  <Button className="flex-1 bg-gradient-to-r from-rs-blue to-rs-indigo hover:opacity-90 shadow-sm hover:shadow-md transition-all text-white active:scale-[0.98] duration-200 hover:scale-[1.02]">
                     Apply Filters
                   </Button>
                   <Button 
                     variant="outline" 
-                    className="flex items-center gap-1 bg-white shadow-sm border-gray-200 hover:bg-gray-50 active:scale-95 transition-all duration-150"
+                    className="flex items-center gap-1 bg-white shadow-sm border-gray-200 hover:bg-gray-50 active:scale-95 transition-all duration-150 hover:border-gray-300"
                   >
                     <RefreshCw size={14} className="animate-spin-slow" />
                     Reset
