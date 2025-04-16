@@ -10,6 +10,7 @@ import Analytics from "./pages/Analytics";
 import Customers from "./pages/Customers";
 import Orders from "./pages/Orders";
 import Settings from "./pages/Settings";
+import Alerts from "./pages/Alerts";
 import "./styles/animations.css";
 
 // Create a client
@@ -33,6 +34,7 @@ const App = () => {
             <Route path="/customers" element={<Customers />} />
             <Route path="/orders" element={<Orders />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/alerts" element={<Alerts />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

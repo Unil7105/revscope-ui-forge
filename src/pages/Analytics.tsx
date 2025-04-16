@@ -1,8 +1,8 @@
 
 import React, { useState } from "react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
-import { ChartContainer, ChartLegend, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, Legend } from "recharts";
+import { ChartContainer, ChartLegend, ChartTooltip } from "@/components/ui/chart";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -157,19 +157,21 @@ const Analytics = () => {
                   <CardContent>
                     <div className="h-[400px]">
                       <ChartContainer config={chartConfig}>
-                        <BarChart data={data}>
-                          <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                          <XAxis dataKey="month" />
-                          <YAxis 
-                            tickFormatter={(value) => `$${value / 1000}k`}
-                            width={80}
-                          />
-                          <Tooltip content={<CustomTooltip />} />
-                          <Legend content={<ChartLegend />} />
-                          <Bar dataKey="revenue" fill="#1E90FF" radius={[4, 4, 0, 0]} />
-                          <Bar dataKey="target" fill="#5C6BC0" radius={[4, 4, 0, 0]} />
-                          <Bar dataKey="lastYear" fill="#2C3E50" radius={[4, 4, 0, 0]} />
-                        </BarChart>
+                        <ResponsiveContainer width="100%" height="100%">
+                          <BarChart data={data}>
+                            <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                            <XAxis dataKey="month" />
+                            <YAxis 
+                              tickFormatter={(value) => `$${value / 1000}k`}
+                              width={80}
+                            />
+                            <Tooltip content={<CustomTooltip />} />
+                            <Legend content={<ChartLegend />} />
+                            <Bar dataKey="revenue" fill="#1E90FF" radius={[4, 4, 0, 0]} />
+                            <Bar dataKey="target" fill="#5C6BC0" radius={[4, 4, 0, 0]} />
+                            <Bar dataKey="lastYear" fill="#2C3E50" radius={[4, 4, 0, 0]} />
+                          </BarChart>
+                        </ResponsiveContainer>
                       </ChartContainer>
                     </div>
                   </CardContent>
