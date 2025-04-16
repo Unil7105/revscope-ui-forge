@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { ChartContainer, ChartLegend, ChartTooltip } from "@/components/ui/chart";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -12,6 +12,7 @@ import RevenueChart from "@/components/dashboard/RevenueChart";
 import SalesPerformanceChart from "@/components/dashboard/SalesPerformanceChart";
 import SalesByRegionChart from "@/components/dashboard/SalesByRegionChart";
 import KpiCardGrid from "@/components/dashboard/KpiCardGrid";
+import { ArrowUpRight, TrendingUp, Activity, Calendar } from "lucide-react";
 
 const data = [
   { month: 'Jan', revenue: 5400, target: 4000, lastYear: 3200 },
@@ -92,11 +93,12 @@ const Analytics = () => {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-semibold bg-gradient-to-r from-rs-text to-rs-indigo/90 bg-clip-text text-transparent">Analytics Dashboard</h1>
+            <h1 className="text-2xl font-semibold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Analytics Dashboard</h1>
             <p className="text-gray-500 mt-1">Track your business performance and metrics</p>
           </div>
           <div className="flex items-center gap-4">
-            <Badge variant="outline" className="bg-white px-3 py-1 text-xs">
+            <Badge variant="outline" className="bg-white px-3 py-1.5 text-xs flex items-center gap-1.5">
+              <Calendar className="h-3.5 w-3.5 text-indigo-500" />
               Last updated: April 16, 2025
             </Badge>
             <Select 
@@ -124,8 +126,14 @@ const Analytics = () => {
 
         <Tabs defaultValue="performance" className="w-full">
           <TabsList className="grid w-full md:w-auto md:inline-flex grid-cols-2 md:grid-cols-none bg-white/60 backdrop-blur-sm">
-            <TabsTrigger value="performance">Performance</TabsTrigger>
-            <TabsTrigger value="regions">Regions</TabsTrigger>
+            <TabsTrigger value="performance" className="flex items-center gap-1.5">
+              <TrendingUp className="h-4 w-4" />
+              Performance
+            </TabsTrigger>
+            <TabsTrigger value="regions" className="flex items-center gap-1.5">
+              <Activity className="h-4 w-4" />
+              Regions
+            </TabsTrigger>
             <TabsTrigger value="channels">Channels</TabsTrigger>
             <TabsTrigger value="trends">Trends</TabsTrigger>
           </TabsList>
@@ -147,9 +155,15 @@ const Analytics = () => {
                   <RevenueChart />
                   <SalesPerformanceChart />
                 </div>
-                <Card className="bg-white/90 backdrop-blur-sm">
+                <Card className="bg-white/90 backdrop-blur-sm hover:shadow-md transition-all duration-300">
                   <CardHeader>
-                    <CardTitle>Revenue Performance</CardTitle>
+                    <CardTitle className="flex items-center gap-2">
+                      <span>Revenue Performance</span>
+                      <Badge variant="outline" className="ml-2 bg-indigo-50 text-indigo-600 border-indigo-100">
+                        <ArrowUpRight className="h-3 w-3 mr-1" />
+                        <span>+15.3%</span>
+                      </Badge>
+                    </CardTitle>
                     <CardDescription>
                       Compare actual revenue against targets and last year
                     </CardDescription>
@@ -194,7 +208,7 @@ const Analytics = () => {
             ) : (
               <div className="grid md:grid-cols-2 gap-6">
                 <SalesByRegionChart />
-                <Card>
+                <Card className="hover:shadow-md transition-all duration-300">
                   <CardHeader>
                     <CardTitle>Regional Growth</CardTitle>
                     <CardDescription>Year-over-year growth by region</CardDescription>
@@ -202,7 +216,7 @@ const Analytics = () => {
                   <CardContent>
                     <div className="space-y-4">
                       {regionData.map((region) => (
-                        <div key={region.name} className="flex justify-between items-center">
+                        <div key={region.name} className="flex justify-between items-center p-2 hover:bg-gray-50 rounded-md transition-colors">
                           <div className="flex items-center gap-2">
                             <div className="h-3 w-3 rounded-full bg-indigo-500" />
                             <span>{region.name}</span>
@@ -235,7 +249,7 @@ const Analytics = () => {
               </Card>
             ) : (
               <div className="grid md:grid-cols-2 gap-6">
-                <Card>
+                <Card className="hover:shadow-md transition-all duration-300">
                   <CardHeader>
                     <CardTitle>Channel Performance</CardTitle>
                     <CardDescription>Sales performance by distribution channel</CardDescription>
@@ -243,7 +257,7 @@ const Analytics = () => {
                   <CardContent>
                     <div className="space-y-4">
                       {channelData.map((channel) => (
-                        <div key={channel.name} className="flex justify-between items-center">
+                        <div key={channel.name} className="flex justify-between items-center p-2 hover:bg-gray-50 rounded-md transition-colors">
                           <div className="flex items-center gap-2">
                             <div className="h-3 w-3 rounded-full bg-emerald-500" />
                             <span>{channel.name}</span>
@@ -259,15 +273,23 @@ const Analytics = () => {
                     </div>
                   </CardContent>
                 </Card>
-                <Card>
+                <Card className="bg-gradient-to-br from-white to-indigo-50/30 hover:shadow-md transition-all duration-300">
                   <CardHeader>
                     <CardTitle>Channel Insights</CardTitle>
                     <CardDescription>Key metrics by sales channel</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-center py-12 text-gray-500">
-                      Channel insights and metrics visualization coming soon
-                    </p>
+                    <div className="flex items-center justify-center h-60">
+                      <div className="text-center">
+                        <Activity className="h-12 w-12 text-indigo-300 mx-auto mb-4" />
+                        <p className="text-gray-500">
+                          Channel insights and metrics visualization coming soon
+                        </p>
+                        <Badge variant="outline" className="mt-4 bg-indigo-50 text-indigo-600 border-indigo-100">
+                          In Development
+                        </Badge>
+                      </div>
+                    </div>
                   </CardContent>
                 </Card>
               </div>
@@ -275,7 +297,7 @@ const Analytics = () => {
           </TabsContent>
           
           <TabsContent value="trends" className="pt-4">
-            <Card>
+            <Card className="bg-gradient-to-br from-white to-blue-50/30 hover:shadow-md transition-all duration-300">
               <CardHeader>
                 <CardTitle>Performance Trends</CardTitle>
                 <CardDescription>
@@ -283,9 +305,17 @@ const Analytics = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-center py-12 text-gray-500">
-                  Trend analysis charts and data tables would be displayed here
-                </p>
+                <div className="flex items-center justify-center h-64">
+                  <div className="text-center">
+                    <TrendingUp className="h-12 w-12 text-blue-300 mx-auto mb-4" />
+                    <p className="text-gray-500">
+                      Trend analysis charts and data tables would be displayed here
+                    </p>
+                    <Badge variant="outline" className="mt-4 bg-blue-50 text-blue-600 border-blue-100">
+                      Coming Soon
+                    </Badge>
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </TabsContent>
