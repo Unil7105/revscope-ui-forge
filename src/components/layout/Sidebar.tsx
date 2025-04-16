@@ -31,37 +31,46 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
   onClick 
 }) => {
   return (
-    <li className="relative">
+    <li className="relative group">
       <Link
         to={to}
         onClick={onClick}
         className={cn(
-          "sidebar-item",
-          active ? "sidebar-item-active" : "sidebar-item-inactive",
-          active && "after:absolute after:inset-0 after:opacity-20 after:animate-pulse-soft after:bg-white after:rounded-md"
+          "sidebar-item relative overflow-hidden",
+          active ? "sidebar-item-active" : "sidebar-item-inactive"
         )}
       >
+        {/* Active state marker - visible vertical bar */}
+        {active && (
+          <div className="absolute left-0 top-1 bottom-1 w-1.5 bg-white rounded-r-full shadow-[0_0_8px_rgba(255,255,255,0.5)]"></div>
+        )}
+        
         <div className={cn(
-          "relative z-10",
-          active && "after:absolute after:inset-0 after:rounded-full after:animate-ping after:bg-white/40 after:opacity-75"
+          "relative z-10 flex items-center gap-3",
         )}>
-          <Icon size={18} className={cn(
-            active ? "text-white animate-pulse-soft" : "text-gray-500",
-            "transition-colors duration-300"
-          )} />
+          <div className={cn(
+            "flex items-center justify-center rounded-md w-7 h-7",
+            active ? "bg-white/20 text-white" : "text-gray-500"
+          )}>
+            <Icon size={18} className={cn(
+              "transition-transform duration-300",
+              active ? "text-white" : "text-gray-500 group-hover:text-rs-blue",
+            )} />
+          </div>
+          <span className={cn(
+            "text-sm transition-all duration-300",
+            active ? "font-semibold text-white" : "font-medium text-gray-700 group-hover:text-gray-900" 
+          )}>
+            {label}
+          </span>
         </div>
-        <span className={cn(
-          "relative z-10",
-          active ? "font-medium" : "",
-          "transition-all duration-300"
-        )}>
-          {label}
-        </span>
+        
+        {/* Background highlight effects for active state */}
         {active && (
           <>
-            <span className="absolute right-2 w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
-            <div className="absolute inset-0 bg-gradient-to-r from-[rgba(255,255,255,0.1)] to-transparent opacity-20 blur-[8px]"></div>
-            <div className="absolute left-0 top-0 h-full w-1 bg-white/30"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-rs-blue to-rs-indigo opacity-100"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
+            <div className="absolute right-2 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-white/70 shadow-[0_0_5px_rgba(255,255,255,0.7)]"></div>
           </>
         )}
       </Link>
@@ -74,7 +83,7 @@ const Sidebar: React.FC = () => {
   const currentPath = location.pathname;
   
   return (
-    <div className="bg-gradient-to-b from-white to-slate-50 border-r border-slate-200/70 w-60 flex flex-col overflow-hidden shadow-sm">
+    <div className="bg-white border-r border-slate-200/70 w-64 flex flex-col h-full overflow-hidden shadow-sm">
       {/* Logo */}
       <div className="p-4 border-b border-slate-200/70">
         <Link to="/" className="flex items-center gap-2 group">
@@ -90,7 +99,7 @@ const Sidebar: React.FC = () => {
         <div className="mb-2 text-xs font-medium text-gray-500 uppercase tracking-wider px-3">
           Dashboard
         </div>
-        <ul className="space-y-1.5 mb-8">
+        <ul className="space-y-1 mb-8">
           <SidebarItem icon={Home} label="Overview" to="/" active={currentPath === "/"} />
           <SidebarItem icon={BarChart} label="Analytics" to="/analytics" active={currentPath === "/analytics"} />
           <SidebarItem icon={PieChart} label="Reports" to="/reports" active={currentPath === "/reports"} />
@@ -100,7 +109,7 @@ const Sidebar: React.FC = () => {
         <div className="mb-2 text-xs font-medium text-gray-500 uppercase tracking-wider px-3">
           Sales
         </div>
-        <ul className="space-y-1.5 mb-8">
+        <ul className="space-y-1 mb-8">
           <SidebarItem icon={ShoppingCart} label="Orders" to="/orders" active={currentPath === "/orders"} />
           <SidebarItem icon={Users} label="Customers" to="/customers" active={currentPath === "/customers"} />
           <SidebarItem icon={Target} label="Pipelines" to="/pipelines" active={currentPath === "/pipelines"} />
@@ -109,7 +118,7 @@ const Sidebar: React.FC = () => {
         <div className="mb-2 text-xs font-medium text-gray-500 uppercase tracking-wider px-3">
           System
         </div>
-        <ul className="space-y-1.5">
+        <ul className="space-y-1">
           <SidebarItem icon={Settings} label="Settings" to="/settings" active={currentPath === "/settings"} />
           <SidebarItem icon={LifeBuoy} label="Support" to="/support" active={currentPath === "/support"} />
         </ul>
@@ -117,7 +126,7 @@ const Sidebar: React.FC = () => {
 
       {/* User account section */}
       <div className="p-4 border-t border-slate-200/70 bg-white/50 transition-colors duration-300 hover:bg-white/80">
-        <button className="flex items-center w-full gap-2 px-2 py-1 rounded-md text-sm text-gray-700 hover:bg-white hover:shadow-sm transition-all duration-200 group hover:scale-[1.02]">
+        <button className="flex items-center w-full gap-3 px-3 py-2 rounded-md text-sm text-gray-700 hover:bg-gray-100 hover:shadow-sm transition-all duration-200 group hover:scale-[1.02]">
           <div className="h-9 w-9 rounded-full bg-gradient-to-br from-rs-blue/10 to-rs-indigo/10 border border-rs-blue/20 flex items-center justify-center text-gray-700 font-medium shadow-sm group-hover:border-rs-blue/40 transition-colors group-hover:shadow-md">
             JS
           </div>
