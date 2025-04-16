@@ -137,9 +137,9 @@
     @apply h-10 w-full mt-2;
   }
 
-  /* Card hover effects */
+  /* Card hover effects - unified */
   .card-hover {
-    @apply hover:shadow-md transition-all duration-300 cursor-pointer;
+    @apply hover:shadow-md hover:translate-y-[-2px] transition-all duration-300 cursor-pointer;
   }
 
   /* Glassmorphism style for cards */
@@ -147,9 +147,69 @@
     @apply bg-white/90 backdrop-blur-sm border border-white/50 shadow-sm;
   }
 
+  /* Buttons - standardized hover effects */
+  .btn-standard {
+    @apply transition-all duration-200 hover:scale-[1.02] focus:ring-2 focus:ring-rs-blue/30 active:scale-[0.98];
+  }
+
   /* Subtle gradient for buttons */
   .btn-gradient {
     @apply bg-gradient-to-r from-rs-blue to-rs-blue/90 hover:from-rs-blue/90 hover:to-rs-blue;
+  }
+  
+  /* Filter chips */
+  .filter-chip {
+    @apply flex items-center gap-1.5 text-xs bg-gray-100 text-gray-700 px-2.5 py-1.5 rounded-full 
+           hover:bg-gray-200 transition-colors animate-in fade-in-50 shadow-sm;
+  }
+  
+  /* Legend pills */
+  .legend-pill {
+    @apply flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium 
+           hover:opacity-80 transition-opacity;
+  }
+  
+  /* Icon container - standardized */
+  .icon-container {
+    @apply p-2 rounded-full transition-colors;
+  }
+  
+  /* Search input styling */
+  .search-input {
+    @apply pl-9 pr-4 py-2 rounded-md border border-slate-200/80 bg-white/80 backdrop-blur-sm
+           focus:border-rs-blue/40 focus:ring-1 focus:ring-rs-blue/30 transition-all
+           hover:border-slate-300 shadow-sm;
+  }
+  
+  /* Sidebar item - standardized */
+  .sidebar-item {
+    @apply flex items-center w-full gap-3 px-3 py-2.5 rounded-md text-sm transition-all duration-300;
+  }
+  
+  /* Sidebar item - active state */
+  .sidebar-item-active {
+    @apply bg-gradient-to-r from-rs-blue to-rs-indigo text-white shadow-md shadow-rs-blue/20 
+           relative overflow-hidden;
+  }
+  
+  /* Sidebar item - inactive state */
+  .sidebar-item-inactive {
+    @apply text-gray-700 hover:bg-gray-100/70 hover:translate-x-1;
+  }
+  
+  /* Chart toggle buttons */
+  .chart-toggle-btn {
+    @apply h-8 rounded-sm px-2 transition-all duration-200;
+  }
+  
+  /* Chart toggle active */
+  .chart-toggle-active {
+    @apply bg-indigo-500 text-white shadow-indigo-200 shadow-sm hover:bg-indigo-600;
+  }
+  
+  /* Chart toggle inactive */
+  .chart-toggle-inactive {
+    @apply text-gray-500 hover:text-indigo-500 hover:bg-indigo-50;
   }
 }
 

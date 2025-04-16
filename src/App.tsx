@@ -13,14 +13,19 @@ import Settings from "./pages/Settings";
 import "./styles/animations.css";
 
 // Create a client
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: 1,
+    },
+  },
+});
 
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <Toaster />
-        <Sonner />
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
@@ -32,6 +37,9 @@ const App = () => {
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
+        {/* Global toasters */}
+        <Toaster />
+        <Sonner position="top-right" closeButton theme="light" />
       </TooltipProvider>
     </QueryClientProvider>
   );

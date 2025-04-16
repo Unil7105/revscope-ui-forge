@@ -10,7 +10,7 @@ interface FilterTagProps {
 
 const FilterTag: React.FC<FilterTagProps> = ({ label, value, onRemove }) => {
   return (
-    <div className="flex items-center gap-1.5 text-xs bg-gray-100 text-gray-700 px-2.5 py-1.5 rounded-full group hover:bg-gray-200 transition-colors animate-in fade-in-50 shadow-sm">
+    <div className="filter-chip group">
       <span className="font-medium capitalize">{label}:</span> 
       <span className="text-gray-600">{value}</span>
       <button 

@@ -12,7 +12,7 @@ const Index = () => {
   return (
     <DashboardLayout>
       {/* KPI Cards */}
-      <section className="rs-section">
+      <section className="animate-in fade-in-50 duration-300">
         <KpiCardGrid />
       </section>
 
@@ -21,12 +21,12 @@ const Index = () => {
         {/* Charts Section - 3 columns on large screens */}
         <div className="lg:col-span-3 space-y-6">
           {/* Revenue Chart */}
-          <section className="rs-section">
+          <section className="animate-in fade-in-50 duration-300 delay-100">
             <RevenueChart />
           </section>
 
           {/* Sales Charts Row */}
-          <section className="rs-section grid grid-cols-1 md:grid-cols-2 gap-6">
+          <section className="animate-in fade-in-50 duration-300 delay-150 grid grid-cols-1 md:grid-cols-2 gap-6">
             <SalesPerformanceChart />
             <SalesByRegionChart />
           </section>
@@ -35,12 +35,12 @@ const Index = () => {
         {/* Right Sidebar - 1 column on large screens */}
         <div className="space-y-6">
           {/* Filter Panel */}
-          <section className="rs-section">
+          <section className="animate-in fade-in-50 slide-in-from-right-2 duration-300 delay-200 sticky top-20">
             <FilterPanel />
           </section>
 
           {/* Alerts Panel */}
-          <section className="rs-section">
+          <section className="animate-in fade-in-50 slide-in-from-right-2 duration-300 delay-300">
             <AlertsPanel />
           </section>
         </div>

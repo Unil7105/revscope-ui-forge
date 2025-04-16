@@ -36,10 +36,8 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
         to={to}
         onClick={onClick}
         className={cn(
-          "flex items-center w-full gap-3 px-3 py-2.5 rounded-md text-sm transition-all duration-300",
-          active 
-            ? "bg-gradient-to-r from-rs-blue to-rs-indigo text-white shadow-md shadow-rs-blue/20 relative overflow-hidden" 
-            : "text-gray-700 hover:bg-gray-100/70 hover:translate-x-1",
+          "sidebar-item",
+          active ? "sidebar-item-active" : "sidebar-item-inactive",
           active && "after:absolute after:inset-0 after:opacity-20 after:animate-pulse-soft after:bg-white after:rounded-md"
         )}
       >
