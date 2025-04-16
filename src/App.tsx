@@ -10,6 +10,7 @@ import Analytics from "./pages/Analytics";
 import Customers from "./pages/Customers";
 import Orders from "./pages/Orders";
 import Settings from "./pages/Settings";
+import "./styles/animations.css"; // We'll create this file next
 
 const queryClient = new QueryClient();
 

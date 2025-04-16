@@ -45,18 +45,19 @@ type ChartType = "area" | "bar" | "line";
 const RevenueChart: React.FC = () => {
   const [timeRange, setTimeRange] = useState("week");
   const [chartType, setChartType] = useState<ChartType>("area");
+  const [isHovering, setIsHovering] = useState(false);
 
   // Custom tooltip component
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-white/90 backdrop-blur-sm rounded-lg p-3 shadow-lg border border-slate-200/60">
+        <div className="bg-white/95 backdrop-blur-sm rounded-lg p-4 shadow-lg border border-slate-200/60 transition-all duration-200 animate-in fade-in-50 zoom-in-95">
           <p className="text-sm font-semibold text-gray-700">{label}</p>
-          <div className="mt-2 space-y-1">
+          <div className="mt-2 space-y-2">
             {payload.map((entry: any, index: number) => (
-              <div key={index} className="flex items-center gap-2">
+              <div key={index} className="flex items-center gap-2.5">
                 <div 
-                  className="h-2 w-2 rounded-full" 
+                  className="h-3 w-3 rounded-full" 
                   style={{ backgroundColor: entry.color }}
                 />
                 <span className="text-sm text-gray-600">{entry.name}:</span>
@@ -70,19 +71,50 @@ const RevenueChart: React.FC = () => {
     return null;
   };
 
+  // Custom Legend component
+  const CustomLegend = ({ payload }: any) => {
+    if (!payload) return null;
+    
+    return (
+      <div className="flex items-center justify-center gap-6 pt-3">
+        {payload.map((entry: any, index: number) => (
+          <div key={index} className="flex items-center gap-2 group">
+            <div 
+              className="h-3 w-3 rounded-full transition-transform group-hover:scale-125" 
+              style={{ backgroundColor: entry.color }}
+            />
+            <span className="text-xs font-medium text-gray-600 group-hover:text-gray-900 transition-colors">
+              {entry.value}
+            </span>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
   return (
-    <Card className="w-full transition-all duration-300 hover:shadow-lg bg-white/90 backdrop-blur-sm border border-slate-200/60">
+    <Card 
+      className={`w-full transition-all duration-300 hover:shadow-lg bg-white/90 backdrop-blur-sm border border-slate-200/60 ${isHovering ? 'shadow-md scale-[1.005]' : 'shadow-sm'}`}
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+    >
       <CardHeader className="flex flex-row items-center justify-between pb-2">
         <div>
-          <CardTitle className="text-lg font-semibold bg-gradient-to-r from-rs-text to-rs-indigo/90 bg-clip-text text-transparent">Revenue Trend</CardTitle>
+          <CardTitle className="text-lg font-semibold bg-gradient-to-r from-rs-text to-rs-indigo/90 bg-clip-text text-transparent">
+            Revenue Trend
+          </CardTitle>
           <CardDescription className="text-gray-500">Daily revenue vs target</CardDescription>
         </div>
         <div className="flex items-center gap-2">
-          <div className="flex items-center rounded-md border border-slate-200 p-1 bg-white">
+          <div className="flex items-center rounded-md border border-slate-200 p-1 bg-white/90 shadow-sm">
             <Button 
               size="sm" 
               variant={chartType === "area" ? "default" : "ghost"} 
-              className={`h-8 rounded-sm px-2 ${chartType === "area" ? "bg-indigo-500 text-white" : "text-gray-500"}`}
+              className={`h-8 rounded-sm px-2 transition-all duration-200 ${
+                chartType === "area" 
+                  ? "bg-indigo-500 text-white shadow-indigo-200 shadow-sm" 
+                  : "text-gray-500 hover:text-indigo-500 hover:bg-indigo-50"
+              }`}
               onClick={() => setChartType("area")}
             >
               <TrendingUp size={16} />
@@ -90,7 +122,11 @@ const RevenueChart: React.FC = () => {
             <Button 
               size="sm" 
               variant={chartType === "line" ? "default" : "ghost"} 
-              className={`h-8 rounded-sm px-2 ${chartType === "line" ? "bg-indigo-500 text-white" : "text-gray-500"}`}
+              className={`h-8 rounded-sm px-2 transition-all duration-200 ${
+                chartType === "line" 
+                  ? "bg-indigo-500 text-white shadow-indigo-200 shadow-sm" 
+                  : "text-gray-500 hover:text-indigo-500 hover:bg-indigo-50"
+              }`}
               onClick={() => setChartType("line")}
             >
               <LineChartIcon size={16} />
@@ -98,17 +134,21 @@ const RevenueChart: React.FC = () => {
             <Button 
               size="sm" 
               variant={chartType === "bar" ? "default" : "ghost"} 
-              className={`h-8 rounded-sm px-2 ${chartType === "bar" ? "bg-indigo-500 text-white" : "text-gray-500"}`}
+              className={`h-8 rounded-sm px-2 transition-all duration-200 ${
+                chartType === "bar" 
+                  ? "bg-indigo-500 text-white shadow-indigo-200 shadow-sm" 
+                  : "text-gray-500 hover:text-indigo-500 hover:bg-indigo-50"
+              }`}
               onClick={() => setChartType("bar")}
             >
               <BarChart2 size={16} />
             </Button>
           </div>
           <Select defaultValue={timeRange} onValueChange={setTimeRange}>
-            <SelectTrigger className="w-36 border-gray-200 bg-white shadow-sm">
+            <SelectTrigger className="w-36 border-gray-200 bg-white shadow-sm hover:bg-gray-50 hover:border-gray-300 transition-colors">
               <SelectValue placeholder="Select range" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="border-gray-200 shadow-md animate-in slide-in-from-top-1 zoom-in-95">
               <SelectItem value="week">Last 7 days</SelectItem>
               <SelectItem value="month">Last 30 days</SelectItem>
               <SelectItem value="quarter">Last quarter</SelectItem>
@@ -126,11 +166,11 @@ const RevenueChart: React.FC = () => {
               >
                 <defs>
                   <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#6366F1" stopOpacity={0.4} />
+                    <stop offset="5%" stopColor="#6366F1" stopOpacity={0.5} />
                     <stop offset="95%" stopColor="#6366F1" stopOpacity={0} />
                   </linearGradient>
                   <linearGradient id="colorTarget" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#EF4444" stopOpacity={0.3} />
+                    <stop offset="5%" stopColor="#EF4444" stopOpacity={0.4} />
                     <stop offset="95%" stopColor="#EF4444" stopOpacity={0} />
                   </linearGradient>
                 </defs>
@@ -143,10 +183,9 @@ const RevenueChart: React.FC = () => {
                 />
                 <Tooltip content={<CustomTooltip />} />
                 <Legend 
-                  wrapperStyle={{ paddingTop: '15px' }}
+                  content={<CustomLegend />}
                   iconType="circle"
                   iconSize={8}
-                  formatter={(value) => <span className="text-xs font-medium text-gray-700">{value}</span>}
                 />
                 <Area
                   type="monotone"
@@ -157,6 +196,8 @@ const RevenueChart: React.FC = () => {
                   strokeWidth={3}
                   name="Revenue"
                   isAnimationActive={true}
+                  animationDuration={1000}
+                  animationEasing="ease-out"
                 />
                 <Area
                   type="monotone"
@@ -168,6 +209,9 @@ const RevenueChart: React.FC = () => {
                   activeDot={{ r: 6, stroke: '#EF4444', strokeWidth: 2, fill: 'white' }}
                   name="Target"
                   isAnimationActive={true}
+                  animationDuration={1200}
+                  animationEasing="ease-out"
+                  animationBegin={300}
                 />
               </AreaChart>
             ) : chartType === "line" ? (
@@ -184,10 +228,9 @@ const RevenueChart: React.FC = () => {
                 />
                 <Tooltip content={<CustomTooltip />} />
                 <Legend 
-                  wrapperStyle={{ paddingTop: '15px' }}
+                  content={<CustomLegend />}
                   iconType="circle"
                   iconSize={8}
-                  formatter={(value) => <span className="text-xs font-medium text-gray-700">{value}</span>}
                 />
                 <Line
                   type="monotone"
@@ -197,6 +240,8 @@ const RevenueChart: React.FC = () => {
                   strokeWidth={3}
                   name="Revenue"
                   isAnimationActive={true}
+                  animationDuration={1000}
+                  animationEasing="ease-out"
                 />
                 <Line
                   type="monotone"
@@ -207,6 +252,9 @@ const RevenueChart: React.FC = () => {
                   activeDot={{ r: 6, stroke: '#EF4444', strokeWidth: 2, fill: 'white' }}
                   name="Target"
                   isAnimationActive={true}
+                  animationDuration={1200}
+                  animationEasing="ease-out"
+                  animationBegin={300}
                 />
               </LineChart>
             ) : (
@@ -224,10 +272,9 @@ const RevenueChart: React.FC = () => {
                 />
                 <Tooltip content={<CustomTooltip />} />
                 <Legend 
-                  wrapperStyle={{ paddingTop: '15px' }}
-                  iconType="circle"
+                  content={<CustomLegend />}
+                  iconType="circle" 
                   iconSize={8}
-                  formatter={(value) => <span className="text-xs font-medium text-gray-700">{value}</span>}
                 />
                 <Bar 
                   dataKey="revenue" 
@@ -237,6 +284,8 @@ const RevenueChart: React.FC = () => {
                   className="hover:opacity-80 transition-opacity cursor-pointer"
                   fillOpacity={0.85}
                   isAnimationActive={true}
+                  animationDuration={800}
+                  animationEasing="ease-out"
                 />
                 <Bar 
                   dataKey="target" 
@@ -246,6 +295,9 @@ const RevenueChart: React.FC = () => {
                   className="hover:opacity-80 transition-opacity cursor-pointer"
                   fillOpacity={0.85}
                   isAnimationActive={true}
+                  animationDuration={1000}
+                  animationEasing="ease-out"
+                  animationBegin={200}
                 />
               </BarChart>
             )}
