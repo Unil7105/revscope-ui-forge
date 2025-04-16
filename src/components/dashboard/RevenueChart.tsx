@@ -127,7 +127,6 @@ const RevenueChart: React.FC = () => {
                     background: "rgba(255, 255, 255, 0.95)",
                     backdropFilter: "blur(8px)"
                   }}
-                  animationDuration={300}
                 />
                 <Legend 
                   wrapperStyle={{ paddingTop: '15px' }}
@@ -181,7 +180,6 @@ const RevenueChart: React.FC = () => {
                     background: "rgba(255, 255, 255, 0.95)",
                     backdropFilter: "blur(8px)"
                   }}
-                  animationDuration={300}
                 />
                 <Legend 
                   wrapperStyle={{ paddingTop: '15px' }}
@@ -234,7 +232,6 @@ const RevenueChart: React.FC = () => {
                     background: "rgba(255, 255, 255, 0.95)",
                     backdropFilter: "blur(8px)"
                   }}
-                  animationDuration={300}
                 />
                 <Legend 
                   wrapperStyle={{ paddingTop: '15px' }}
