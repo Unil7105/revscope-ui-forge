@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -19,6 +20,16 @@ export default {
 		},
 		extend: {
 			colors: {
+				// RevScope Custom Colors
+				"rs-blue": "#1E90FF", // Primary: Electric Blue
+				"rs-green": "#2ECC71", // Success: Emerald Green
+				"rs-red": "#E74C3C", // Danger: Coral Red
+				"rs-indigo": "#5C6BC0", // Accent: Soft Indigo
+				"rs-bg": "#F4F4F4", // Background: Light Gray
+				"rs-white": "#FFFFFF", // Surface/Card: White
+				"rs-text": "#2C3E50", // Text: Deep Charcoal
+				
+				// Original shadcn colors
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
@@ -63,6 +74,10 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				}
 			},
+			fontFamily: {
+				inter: ['Inter', 'sans-serif'],
+				'roboto-mono': ['"Roboto Mono"', 'monospace'],
+			},
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
@@ -84,11 +99,16 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'pulse-soft': {
+					'0%, 100%': { opacity: '1' },
+					'50%': { opacity: '0.7' },
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'pulse-soft': 'pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
 			}
 		}
 	},
