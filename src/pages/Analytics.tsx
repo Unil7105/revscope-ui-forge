@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { ChartContainer, ChartLegend, ChartTooltip } from "@/components/ui/chart";
@@ -8,11 +7,26 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 import RevenueChart from "@/components/dashboard/RevenueChart";
 import SalesPerformanceChart from "@/components/dashboard/SalesPerformanceChart";
 import SalesByRegionChart from "@/components/dashboard/SalesByRegionChart";
 import KpiCardGrid from "@/components/dashboard/KpiCardGrid";
-import { ArrowUpRight, TrendingUp, Activity, Calendar } from "lucide-react";
+import ProductPerformanceTable from "@/components/dashboard/ProductPerformanceTable";
+import { 
+  ArrowUpRight, 
+  TrendingUp, 
+  Activity, 
+  Calendar, 
+  Download, 
+  ShoppingBag, 
+  BarChart as BarChartIcon,
+  Globe,
+  AlertCircle,
+  ChevronDown
+} from "lucide-react";
 
 const data = [
   { month: 'Jan', revenue: 5400, target: 4000, lastYear: 3200 },
@@ -60,7 +74,6 @@ const chartConfig = {
   },
 };
 
-// Custom tooltip component
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
@@ -87,6 +100,12 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 const Analytics = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [period, setPeriod] = useState("thisYear");
+  const [showComparison, setShowComparison] = useState(false);
+  const [exportFormat, setExportFormat] = useState("csv");
+
+  const handleExport = () => {
+    alert(`Exporting analytics data in ${exportFormat.toUpperCase()} format`);
+  };
 
   return (
     <DashboardLayout>
@@ -97,6 +116,41 @@ const Analytics = () => {
             <p className="text-gray-500 mt-1">Track your business performance and metrics</p>
           </div>
           <div className="flex items-center gap-4">
+            <div className="flex flex-col sm:flex-row items-center gap-2 bg-white/80 py-1.5 px-3 rounded-lg border border-gray-100 shadow-sm">
+              <Label htmlFor="compare-toggle" className="text-xs text-gray-500 cursor-pointer">
+                Compare with previous period
+              </Label>
+              <Switch 
+                id="compare-toggle" 
+                checked={showComparison} 
+                onCheckedChange={setShowComparison}
+                className="data-[state=checked]:bg-indigo-600"
+              />
+            </div>
+            <div className="flex items-center">
+              <Select 
+                defaultValue="csv"
+                onValueChange={setExportFormat}
+              >
+                <SelectTrigger className="w-[100px] bg-white border-slate-200 h-9 text-xs">
+                  <SelectValue placeholder="Format" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="csv">CSV</SelectItem>
+                  <SelectItem value="excel">Excel</SelectItem>
+                  <SelectItem value="pdf">PDF</SelectItem>
+                </SelectContent>
+              </Select>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="ml-2 bg-white hover:bg-indigo-50 border-slate-200 text-indigo-600 hover:text-indigo-700"
+                onClick={handleExport}
+              >
+                <Download className="h-3.5 w-3.5 mr-1" />
+                Export
+              </Button>
+            </div>
             <Badge variant="outline" className="bg-white px-3 py-1.5 text-xs flex items-center gap-1.5">
               <Calendar className="h-3.5 w-3.5 text-indigo-500" />
               Last updated: April 16, 2025
@@ -124,6 +178,18 @@ const Analytics = () => {
 
         <KpiCardGrid />
 
+        <Card className="bg-gradient-to-r from-indigo-50/50 to-purple-50/30 p-4 border border-indigo-100/60">
+          <div className="flex items-center gap-2 text-indigo-900">
+            <AlertCircle className="h-5 w-5 text-indigo-500" />
+            <h3 className="font-medium">Analytics Insights</h3>
+          </div>
+          <div className="mt-2 text-sm text-gray-600">
+            <p className="mb-1">• Revenue is trending <span className="text-emerald-600 font-medium">15.3% higher</span> than the same period last year</p>
+            <p className="mb-1">• Sales in <span className="font-medium">Europe</span> region have increased by <span className="text-emerald-600 font-medium">8.7%</span> this quarter</p>
+            <p>• <span className="font-medium">Direct Sales</span> channel is your best performer with <span className="text-emerald-600 font-medium">35%</span> of total revenue</p>
+          </div>
+        </Card>
+
         <Tabs defaultValue="performance" className="w-full">
           <TabsList className="grid w-full md:w-auto md:inline-flex grid-cols-2 md:grid-cols-none bg-white/60 backdrop-blur-sm">
             <TabsTrigger value="performance" className="flex items-center gap-1.5">
@@ -131,11 +197,21 @@ const Analytics = () => {
               Performance
             </TabsTrigger>
             <TabsTrigger value="regions" className="flex items-center gap-1.5">
-              <Activity className="h-4 w-4" />
+              <Globe className="h-4 w-4" />
               Regions
             </TabsTrigger>
-            <TabsTrigger value="channels">Channels</TabsTrigger>
-            <TabsTrigger value="trends">Trends</TabsTrigger>
+            <TabsTrigger value="channels" className="flex items-center gap-1.5">
+              <Activity className="h-4 w-4" />
+              Channels
+            </TabsTrigger>
+            <TabsTrigger value="products" className="flex items-center gap-1.5">
+              <ShoppingBag className="h-4 w-4" />
+              Products
+            </TabsTrigger>
+            <TabsTrigger value="trends" className="flex items-center gap-1.5">
+              <BarChartIcon className="h-4 w-4" />
+              Trends
+            </TabsTrigger>
           </TabsList>
           
           <TabsContent value="performance" className="pt-4 space-y-6">
@@ -183,7 +259,7 @@ const Analytics = () => {
                             <Legend content={<ChartLegend />} />
                             <Bar dataKey="revenue" fill="#1E90FF" radius={[4, 4, 0, 0]} />
                             <Bar dataKey="target" fill="#5C6BC0" radius={[4, 4, 0, 0]} />
-                            <Bar dataKey="lastYear" fill="#2C3E50" radius={[4, 4, 0, 0]} />
+                            {showComparison && <Bar dataKey="lastYear" fill="#2C3E50" radius={[4, 4, 0, 0]} />}
                           </BarChart>
                         </ResponsiveContainer>
                       </ChartContainer>
@@ -294,6 +370,18 @@ const Analytics = () => {
                 </Card>
               </div>
             )}
+          </TabsContent>
+          
+          <TabsContent value="products" className="pt-4">
+            <Card className="hover:shadow-md transition-all duration-300">
+              <CardHeader>
+                <CardTitle>Product Performance</CardTitle>
+                <CardDescription>Performance metrics by product</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ProductPerformanceTable />
+              </CardContent>
+            </Card>
           </TabsContent>
           
           <TabsContent value="trends" className="pt-4">
