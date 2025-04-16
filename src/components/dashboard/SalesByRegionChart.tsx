@@ -49,7 +49,7 @@ const renderCustomizedLabel = ({
 
 const SalesByRegionChart: React.FC = () => {
   return (
-    <Card className="w-full">
+    <Card className="w-full hover:shadow-lg transition-all duration-300 bg-gradient-to-br from-white to-gray-50">
       <CardHeader>
         <CardTitle>Sales by Region</CardTitle>
         <CardDescription>Revenue distribution by geographic region</CardDescription>
@@ -68,6 +68,8 @@ const SalesByRegionChart: React.FC = () => {
                 innerRadius={50}
                 fill="#8884d8"
                 dataKey="value"
+                animationDuration={800}
+                animationBegin={200}
               >
                 {data.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={entry.color} />
@@ -78,14 +80,16 @@ const SalesByRegionChart: React.FC = () => {
                 contentStyle={{ 
                   borderRadius: "8px", 
                   border: "1px solid #eee", 
-                  boxShadow: "0 2px 8px rgba(0,0,0,0.1)" 
+                  boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                  background: "rgba(255, 255, 255, 0.95)",
+                  backdropFilter: "blur(4px)"
                 }}
+                animationDuration={300}
               />
               <Legend
                 layout="horizontal"
                 verticalAlign="bottom"
                 align="center"
-                // Remove the itemStyle prop which is causing the error
               />
             </PieChart>
           </ResponsiveContainer>

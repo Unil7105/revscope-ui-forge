@@ -34,14 +34,14 @@ const RevenueChart: React.FC = () => {
   const [timeRange, setTimeRange] = useState("week");
 
   return (
-    <Card className="w-full">
+    <Card className="w-full hover:shadow-lg transition-all duration-300 bg-gradient-to-br from-white to-gray-50">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
         <div>
           <CardTitle>Revenue Trend</CardTitle>
           <CardDescription>Daily revenue vs target</CardDescription>
         </div>
         <Select defaultValue={timeRange} onValueChange={setTimeRange}>
-          <SelectTrigger className="w-36">
+          <SelectTrigger className="w-36 border-gray-200 bg-white/80 shadow-sm">
             <SelectValue placeholder="Select range" />
           </SelectTrigger>
           <SelectContent>
@@ -57,18 +57,20 @@ const RevenueChart: React.FC = () => {
             <AreaChart
               data={data}
               margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
+              animationDuration={800}
+              animationBegin={100}
             >
               <defs>
                 <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#1E90FF" stopOpacity={0.2} />
+                  <stop offset="5%" stopColor="#1E90FF" stopOpacity={0.3} />
                   <stop offset="95%" stopColor="#1E90FF" stopOpacity={0} />
                 </linearGradient>
                 <linearGradient id="colorTarget" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#E74C3C" stopOpacity={0.2} />
+                  <stop offset="5%" stopColor="#E74C3C" stopOpacity={0.3} />
                   <stop offset="95%" stopColor="#E74C3C" stopOpacity={0} />
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} />
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(0,0,0,0.06)" />
               <XAxis dataKey="name" axisLine={false} tickLine={false} />
               <YAxis 
                 axisLine={false} 
@@ -77,12 +79,15 @@ const RevenueChart: React.FC = () => {
               />
               <Tooltip 
                 formatter={(value: number) => [`$${value.toLocaleString()}`, undefined]}
-                labelStyle={{ color: "#2C3E50" }}
+                labelStyle={{ color: "#2C3E50", fontWeight: "600" }}
                 contentStyle={{ 
                   borderRadius: "8px", 
                   border: "1px solid #eee", 
-                  boxShadow: "0 2px 8px rgba(0,0,0,0.1)" 
+                  boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                  background: "rgba(255, 255, 255, 0.95)",
+                  backdropFilter: "blur(4px)"
                 }}
+                animationDuration={300}
               />
               <Legend />
               <Area
@@ -90,8 +95,8 @@ const RevenueChart: React.FC = () => {
                 dataKey="revenue"
                 stroke="#1E90FF"
                 fill="url(#colorRevenue)"
-                activeDot={{ r: 6 }}
-                strokeWidth={2}
+                activeDot={{ r: 8, stroke: '#1E90FF', strokeWidth: 2, fill: 'white' }}
+                strokeWidth={3}
                 name="Revenue"
               />
               <Area
@@ -101,6 +106,7 @@ const RevenueChart: React.FC = () => {
                 fill="url(#colorTarget)"
                 strokeWidth={2}
                 strokeDasharray="5 5"
+                activeDot={{ r: 6, stroke: '#E74C3C', strokeWidth: 2, fill: 'white' }}
                 name="Target"
               />
             </AreaChart>

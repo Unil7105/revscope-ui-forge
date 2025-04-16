@@ -57,11 +57,28 @@ const KpiCard: React.FC<KpiCardProps> = ({
     }
   };
 
+  const getBgGradient = () => {
+    switch (type) {
+      case "revenue":
+        return "bg-gradient-to-br from-white to-blue-50";
+      case "orders":
+        return "bg-gradient-to-br from-white to-indigo-50";
+      case "conversion":
+        return "bg-gradient-to-br from-white to-green-50";
+      case "aov":
+        return "bg-gradient-to-br from-white to-red-50";
+      default:
+        return "bg-gradient-to-br from-white to-blue-50";
+    }
+  };
+
   return (
-    <div className="rs-card">
+    <div className={`rs-card shadow-sm hover:shadow-md transition-all duration-300 ${getBgGradient()}`}>
       <div className="flex items-center justify-between mb-2">
         <div className="text-gray-500 text-sm">{title}</div>
-        {getIcon()}
+        <div className="p-1.5 rounded-full bg-white/80 shadow-sm">
+          {getIcon()}
+        </div>
       </div>
       
       <div className="rs-stat-value">{value}</div>
@@ -80,7 +97,7 @@ const KpiCard: React.FC<KpiCardProps> = ({
         <span className="text-sm text-gray-500">vs last period</span>
       </div>
       
-      <div className="rs-mini-chart">
+      <div className="rs-mini-chart mt-3">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
             data={chartData}
@@ -88,7 +105,7 @@ const KpiCard: React.FC<KpiCardProps> = ({
           >
             <defs>
               <linearGradient id={`gradient-${type}`} x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor={getChartColor()} stopOpacity={0.3} />
+                <stop offset="5%" stopColor={getChartColor()} stopOpacity={0.4} />
                 <stop offset="95%" stopColor={getChartColor()} stopOpacity={0} />
               </linearGradient>
             </defs>
@@ -99,6 +116,8 @@ const KpiCard: React.FC<KpiCardProps> = ({
               fillOpacity={1}
               fill={`url(#gradient-${type})`}
               strokeWidth={2}
+              animationDuration={800}
+              animationBegin={100}
             />
           </AreaChart>
         </ResponsiveContainer>

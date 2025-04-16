@@ -96,6 +96,16 @@
   body {
     @apply bg-rs-bg text-rs-text font-inter;
   }
+
+  /* Add smooth transitions globally */
+  button, a, input, select, *[role="button"] {
+    @apply transition-all duration-200;
+  }
+
+  /* Focus ring enhancement */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-rs-blue/50 ring-offset-2 ring-offset-white;
+  }
 }
 
 @layer components {
@@ -126,4 +136,47 @@
   .rs-mini-chart {
     @apply h-10 w-full mt-2;
   }
+
+  /* Card hover effects */
+  .card-hover {
+    @apply hover:shadow-md transition-all duration-300 cursor-pointer;
+  }
+
+  /* Glassmorphism style for cards */
+  .card-glass {
+    @apply bg-white/90 backdrop-blur-sm border border-white/50 shadow-sm;
+  }
+
+  /* Subtle gradient for buttons */
+  .btn-gradient {
+    @apply bg-gradient-to-r from-rs-blue to-rs-blue/90 hover:from-rs-blue/90 hover:to-rs-blue;
+  }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { 
+    opacity: 1;
+  }
+  50% { 
+    opacity: 0.8;
+  }
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes fadeIn {
+  from { 
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
 }

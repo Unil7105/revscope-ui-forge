@@ -29,7 +29,7 @@ const data = [
 
 const SalesPerformanceChart: React.FC = () => {
   return (
-    <Card className="w-full">
+    <Card className="w-full hover:shadow-lg transition-all duration-300 bg-gradient-to-br from-white to-gray-50">
       <CardHeader>
         <CardTitle>Sales Performance</CardTitle>
         <CardDescription>Revenue by product category</CardDescription>
@@ -41,8 +41,10 @@ const SalesPerformanceChart: React.FC = () => {
               data={data}
               margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
               barGap={8}
+              animationDuration={800}
+              animationBegin={100}
             >
-              <CartesianGrid strokeDasharray="3 3" vertical={false} />
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(0,0,0,0.06)" />
               <XAxis dataKey="name" axisLine={false} tickLine={false} />
               <YAxis 
                 axisLine={false} 
@@ -51,12 +53,15 @@ const SalesPerformanceChart: React.FC = () => {
               />
               <Tooltip 
                 formatter={(value: number) => [`$${value.toLocaleString()}`, undefined]}
-                labelStyle={{ color: "#2C3E50" }}
+                labelStyle={{ color: "#2C3E50", fontWeight: "600" }}
                 contentStyle={{ 
                   borderRadius: "8px", 
                   border: "1px solid #eee", 
-                  boxShadow: "0 2px 8px rgba(0,0,0,0.1)" 
+                  boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                  background: "rgba(255, 255, 255, 0.95)",
+                  backdropFilter: "blur(4px)"
                 }}
+                animationDuration={300}
               />
               <Legend />
               <Bar 
@@ -64,12 +69,16 @@ const SalesPerformanceChart: React.FC = () => {
                 fill="#1E90FF" 
                 radius={[4, 4, 0, 0]} 
                 name="Revenue"
+                className="hover:opacity-90 transition-opacity"
+                fillOpacity={0.9}
               />
               <Bar 
                 dataKey="target" 
                 fill="#5C6BC0" 
                 radius={[4, 4, 0, 0]} 
                 name="Target"
+                className="hover:opacity-90 transition-opacity"
+                fillOpacity={0.9}
               />
             </BarChart>
           </ResponsiveContainer>
