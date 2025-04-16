@@ -85,7 +85,7 @@ const SalesByRegionChart: React.FC = () => {
                 layout="horizontal"
                 verticalAlign="bottom"
                 align="center"
-                itemStyle={{ fontSize: "12px" }}
+                // Remove the itemStyle prop which is causing the error
               />
             </PieChart>
           </ResponsiveContainer>
