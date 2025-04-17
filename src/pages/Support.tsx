@@ -1,6 +1,17 @@
-
 import React, { useState } from "react";
-import { LifeBuoy, Search, Mail, Phone, MessageSquare, HelpCircle, ExternalLink, ThumbsUp, ThumbsDown } from "lucide-react";
+import { 
+  LifeBuoy, 
+  Search, 
+  Mail, 
+  Phone, 
+  MessageSquare, 
+  HelpCircle, 
+  ExternalLink, 
+  ThumbsUp, 
+  ThumbsDown,
+  Crosshair,
+  FileText as FileIcon
+} from "lucide-react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,7 +32,6 @@ const Support: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState("faq");
   
-  // Sample FAQ data
   const faqItems: FaqItem[] = [
     {
       id: "faq-1",
@@ -73,7 +83,6 @@ const Support: React.FC = () => {
     },
   ];
 
-  // Filter FAQs based on search query
   const filteredFaqs = searchQuery.trim() === "" 
     ? faqItems 
     : faqItems.filter(faq => 
@@ -81,7 +90,6 @@ const Support: React.FC = () => {
         faq.answer.toLowerCase().includes(searchQuery.toLowerCase())
       );
 
-  // Contact form submission
   const handleContactSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     toast({
@@ -90,7 +98,6 @@ const Support: React.FC = () => {
     });
   };
 
-  // Handle FAQ feedback
   const handleFeedback = (helpful: boolean) => {
     toast({
       title: helpful ? "Thank you for your feedback!" : "We'll improve this answer",
@@ -332,7 +339,7 @@ const Support: React.FC = () => {
             <Card className="hover:shadow-md transition-shadow">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Target size={20} />
+                  <Crosshair size={20} />
                   Sales & Pipelines
                 </CardTitle>
               </CardHeader>
@@ -369,7 +376,7 @@ const Support: React.FC = () => {
             <Card className="hover:shadow-md transition-shadow">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <FileText size={20} />
+                  <FileIcon size={20} />
                   Reports & Analytics
                 </CardTitle>
               </CardHeader>

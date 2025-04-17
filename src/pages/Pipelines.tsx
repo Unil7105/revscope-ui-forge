@@ -288,11 +288,12 @@ const Pipelines: React.FC = () => {
                     <div className="font-medium">{formatCurrency(deal.value)}</div>
                     <div className="text-sm">{deal.owner}</div>
                     <div className="flex flex-col gap-1">
-                      <Progress 
-                        value={deal.progress} 
-                        className="h-2" 
-                        indicatorClassName={getProgressColor(deal.progress)} 
-                      />
+                      <div className="h-2 rounded-full bg-gray-100 overflow-hidden">
+                        <div 
+                          className={`h-full ${getProgressColor(deal.progress)}`} 
+                          style={{ width: `${deal.progress}%` }}
+                        />
+                      </div>
                       <div className="flex justify-between text-xs text-gray-500">
                         <span>{deal.progress}%</span>
                         <span>{deal.lastUpdated}</span>
