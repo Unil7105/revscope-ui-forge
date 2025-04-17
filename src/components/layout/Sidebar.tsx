@@ -3,7 +3,7 @@ import {
   BarChart, 
   Users, 
   ShoppingCart, 
-  Target, 
+  Crosshair, 
   Settings, 
   LifeBuoy, 
   Home,
@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Link, useLocation } from "react-router-dom";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface SidebarItemProps {
   icon: React.ElementType;
@@ -80,6 +81,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
 const Sidebar: React.FC = () => {
   const location = useLocation();
   const currentPath = location.pathname;
+  const isMobile = useIsMobile();
   
   return (
     <div className="bg-white border-r border-slate-200/70 w-64 flex flex-col h-full overflow-hidden shadow-sm">

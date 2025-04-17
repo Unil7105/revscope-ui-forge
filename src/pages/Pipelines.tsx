@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Target, Plus, ChevronDown, Users, Clock, DollarSign, CheckCircle } from "lucide-react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
@@ -6,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 type Stage = {
   id: number;
@@ -28,8 +28,8 @@ type Deal = {
 
 const Pipelines: React.FC = () => {
   const [activeStage, setActiveStage] = useState<number | null>(null);
+  const isMobile = useIsMobile();
 
-  // Sample pipeline stages
   const stages: Stage[] = [
     { id: 1, name: "Lead Qualification", count: 24, value: 85000, color: "bg-blue-500" },
     { id: 2, name: "Initial Contact", count: 18, value: 142000, color: "bg-indigo-500" },
@@ -39,7 +39,6 @@ const Pipelines: React.FC = () => {
     { id: 6, name: "Closed Won", count: 3, value: 180000, color: "bg-green-500" },
   ];
 
-  // Sample deals
   const deals: Deal[] = [
     {
       id: 1,
@@ -93,7 +92,6 @@ const Pipelines: React.FC = () => {
     },
   ];
 
-  // Function to format currency
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
@@ -103,7 +101,6 @@ const Pipelines: React.FC = () => {
     }).format(value);
   };
 
-  // Get progress color based on value
   const getProgressColor = (progress: number) => {
     if (progress < 30) return "bg-blue-500";
     if (progress < 60) return "bg-orange-500";
@@ -111,7 +108,6 @@ const Pipelines: React.FC = () => {
     return "bg-green-500";
   };
 
-  // Get badge color based on stage
   const getStageBadgeColor = (stage: string) => {
     switch (stage) {
       case "Lead Qualification":
@@ -139,29 +135,28 @@ const Pipelines: React.FC = () => {
     }
   };
 
-  // Calculate total pipeline value
   const totalPipelineValue = stages.reduce((sum, stage) => sum + stage.value, 0);
 
   return (
     <DashboardLayout>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 sm:mb-6 gap-4">
         <div>
           <h1 className="text-2xl font-bold text-gray-800">Sales Pipelines</h1>
           <p className="text-gray-600">Track and manage your sales opportunities</p>
         </div>
-        <Button className="gap-1">
+        <Button className="gap-1 self-start sm:self-auto">
           <Plus size={16} />
-          New Deal
+          <span className={isMobile ? "sr-only" : ""}>New Deal</span>
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-4 sm:mb-6">
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-md">Pipeline Overview</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold mb-4">{formatCurrency(totalPipelineValue)}</div>
+            <div className="text-2xl sm:text-3xl font-bold mb-4">{formatCurrency(totalPipelineValue)}</div>
             <div className="space-y-4">
               {stages.map((stage) => (
                 <div key={stage.id} className="space-y-1">
@@ -214,7 +209,7 @@ const Pipelines: React.FC = () => {
           <CardContent>
             <div className="space-y-4">
               <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mt-0.5">
+                <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mt-0.5 flex-shrink-0">
                   <CheckCircle size={16} className="text-green-600" />
                 </div>
                 <div>
@@ -223,7 +218,7 @@ const Pipelines: React.FC = () => {
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mt-0.5">
+                <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mt-0.5 flex-shrink-0">
                   <Users size={16} className="text-blue-600" />
                 </div>
                 <div>
@@ -232,7 +227,7 @@ const Pipelines: React.FC = () => {
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center mt-0.5">
+                <div className="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center mt-0.5 flex-shrink-0">
                   <DollarSign size={16} className="text-purple-600" />
                 </div>
                 <div>
@@ -241,7 +236,7 @@ const Pipelines: React.FC = () => {
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center mt-0.5">
+                <div className="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center mt-0.5 flex-shrink-0">
                   <Clock size={16} className="text-amber-600" />
                 </div>
                 <div>
@@ -254,10 +249,10 @@ const Pipelines: React.FC = () => {
         </Card>
       </div>
 
-      <div className="mb-6">
+      <div className="mb-4 sm:mb-6">
         <Card>
           <CardHeader className="pb-2">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <CardTitle>Active Deals</CardTitle>
               <Button variant="outline" size="sm">
                 View All
@@ -265,42 +260,43 @@ const Pipelines: React.FC = () => {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="rounded-md border">
-              <div className="grid grid-cols-6 gap-4 p-4 border-b bg-muted/50 text-sm font-medium text-muted-foreground">
-                <div className="col-span-2">Deal</div>
-                <div>Stage</div>
-                <div>Value</div>
-                <div>Owner</div>
-                <div>Progress</div>
-              </div>
-              <div className="divide-y">
-                {deals.map((deal) => (
-                  <div key={deal.id} className="grid grid-cols-6 gap-4 p-4 items-center hover:bg-muted/60 transition-colors cursor-pointer">
-                    <div className="col-span-2">
-                      <div className="font-medium">{deal.name}</div>
-                      <div className="text-sm text-gray-500">{deal.company}</div>
-                    </div>
-                    <div>
-                      <Badge variant="outline" className={getStageBadgeColor(deal.stage)}>
-                        {deal.stage}
-                      </Badge>
-                    </div>
-                    <div className="font-medium">{formatCurrency(deal.value)}</div>
-                    <div className="text-sm">{deal.owner}</div>
-                    <div className="flex flex-col gap-1">
-                      <div className="h-2 rounded-full bg-gray-100 overflow-hidden">
-                        <div 
-                          className={`h-full ${getProgressColor(deal.progress)}`} 
-                          style={{ width: `${deal.progress}%` }}
+            <div className="rounded-md border overflow-x-auto -mx-2 px-2 sm:mx-0 sm:px-0">
+              <div className="min-w-[700px]">
+                <div className="grid grid-cols-6 gap-4 p-4 border-b bg-muted/50 text-sm font-medium text-muted-foreground">
+                  <div className="col-span-2">Deal</div>
+                  <div>Stage</div>
+                  <div>Value</div>
+                  <div>Owner</div>
+                  <div>Progress</div>
+                </div>
+                <div className="divide-y">
+                  {deals.map((deal) => (
+                    <div key={deal.id} className="grid grid-cols-6 gap-4 p-4 items-center hover:bg-muted/60 transition-colors cursor-pointer">
+                      <div className="col-span-2">
+                        <div className="font-medium">{deal.name}</div>
+                        <div className="text-sm text-gray-500">{deal.company}</div>
+                      </div>
+                      <div>
+                        <Badge variant="outline" className={getStageBadgeColor(deal.stage)}>
+                          {deal.stage}
+                        </Badge>
+                      </div>
+                      <div className="font-medium">{formatCurrency(deal.value)}</div>
+                      <div className="text-sm">{deal.owner}</div>
+                      <div className="flex flex-col gap-1">
+                        <Progress 
+                          value={deal.progress} 
+                          className="h-2" 
+                          indicatorClassName={getProgressColor(deal.progress)}
                         />
-                      </div>
-                      <div className="flex justify-between text-xs text-gray-500">
-                        <span>{deal.progress}%</span>
-                        <span>{deal.lastUpdated}</span>
+                        <div className="flex justify-between text-xs text-gray-500">
+                          <span>{deal.progress}%</span>
+                          <span>{deal.lastUpdated}</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
           </CardContent>
@@ -319,13 +315,13 @@ const Pipelines: React.FC = () => {
                   className="flex items-center justify-between p-4 cursor-pointer hover:bg-muted/60 transition-colors"
                   onClick={() => toggleStage(stage.id)}
                 >
-                  <div className="flex items-center gap-3">
-                    <div className={`w-4 h-4 rounded-full ${stage.color}`}></div>
-                    <h3 className="font-medium">{stage.name}</h3>
-                    <Badge variant="outline">{stage.count}</Badge>
+                  <div className="flex items-center gap-3 overflow-hidden">
+                    <div className={`w-4 h-4 rounded-full ${stage.color} flex-shrink-0`}></div>
+                    <h3 className="font-medium truncate">{stage.name}</h3>
+                    <Badge variant="outline" className="flex-shrink-0">{stage.count}</Badge>
                   </div>
-                  <div className="flex items-center gap-4">
-                    <span className="font-medium">{formatCurrency(stage.value)}</span>
+                  <div className="flex items-center gap-4 flex-shrink-0">
+                    <span className="font-medium hidden sm:inline">{formatCurrency(stage.value)}</span>
                     <ChevronDown 
                       size={18} 
                       className={`transition-transform ${activeStage === stage.id ? 'rotate-180' : ''}`} 
@@ -337,20 +333,22 @@ const Pipelines: React.FC = () => {
                     <div className="text-sm text-gray-600 mb-2">
                       {stage.count} deals in this stage, totaling {formatCurrency(stage.value)}
                     </div>
-                    {deals
-                      .filter(d => d.stage === stage.name)
-                      .map(deal => (
-                        <div key={deal.id} className="flex items-center justify-between p-2 hover:bg-muted/60 rounded-md cursor-pointer">
-                          <div>
-                            <div className="font-medium">{deal.name}</div>
-                            <div className="text-sm text-gray-500">{deal.company}</div>
+                    <div className="space-y-2">
+                      {deals
+                        .filter(d => d.stage === stage.name)
+                        .map(deal => (
+                          <div key={deal.id} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-2 hover:bg-muted/60 rounded-md cursor-pointer gap-2">
+                            <div>
+                              <div className="font-medium">{deal.name}</div>
+                              <div className="text-sm text-gray-500">{deal.company}</div>
+                            </div>
+                            <div className="sm:text-right">
+                              <div className="font-medium">{formatCurrency(deal.value)}</div>
+                              <div className="text-xs text-gray-500">Updated {deal.lastUpdated}</div>
+                            </div>
                           </div>
-                          <div className="text-right">
-                            <div className="font-medium">{formatCurrency(deal.value)}</div>
-                            <div className="text-xs text-gray-500">Updated {deal.lastUpdated}</div>
-                          </div>
-                        </div>
-                      ))}
+                        ))}
+                    </div>
                     {deals.filter(d => d.stage === stage.name).length === 0 && (
                       <div className="text-center py-4 text-sm text-gray-500">
                         No deals in this stage
