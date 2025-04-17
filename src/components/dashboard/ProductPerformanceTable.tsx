@@ -91,17 +91,17 @@ const ProductPerformanceTable: React.FC = () => {
               <TableCell className="text-right">
                 <div className="flex items-center justify-end">
                   {product.trend > 5 ? (
-                    <Badge className="bg-emerald-100 hover:bg-emerald-200 text-emerald-700 border-0">
+                    <Badge className="bg-emerald-100 hover:bg-emerald-200 text-emerald-700 border-0 flex items-center">
                       <TrendingUp className="h-3 w-3 mr-1" />
                       {product.trend}%
                     </Badge>
                   ) : product.trend < -1 ? (
-                    <Badge variant="outline" className="bg-red-100 hover:bg-red-200 text-red-700 border-0">
+                    <Badge variant="outline" className="bg-red-100 hover:bg-red-200 text-red-700 border-0 flex items-center">
                       <TrendingDown className="h-3 w-3 mr-1" />
                       {Math.abs(product.trend)}%
                     </Badge>
                   ) : (
-                    <Badge variant="outline" className="bg-gray-100 hover:bg-gray-200 text-gray-700 border-0">
+                    <Badge variant="outline" className="bg-gray-100 hover:bg-gray-200 text-gray-700 border-0 flex items-center">
                       <Minus className="h-3 w-3 mr-1" />
                       {product.trend}%
                     </Badge>
