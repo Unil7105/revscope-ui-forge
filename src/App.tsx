@@ -10,6 +10,9 @@ import Customers from "./pages/Customers";
 import Orders from "./pages/Orders";
 import Settings from "./pages/Settings";
 import Alerts from "./pages/Alerts";
+import Reports from "./pages/Reports";
+import Pipelines from "./pages/Pipelines";
+import Support from "./pages/Support";
 import "./styles/animations.css";
 
 // Create a client
@@ -33,6 +36,9 @@ const App = () => {
             <Route path="/orders" element={<Orders />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/alerts" element={<Alerts />} />
+            <Route path="/reports" element={<Reports />} />
+            <Route path="/pipelines" element={<Pipelines />} />
+            <Route path="/support" element={<Support />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

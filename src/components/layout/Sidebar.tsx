@@ -1,3 +1,4 @@
+
 import React from "react";
 import { 
   BarChart, 
@@ -9,7 +10,9 @@ import {
   Home,
   PieChart,
   Bell,
-  LogOut
+  LogOut,
+  FileText,
+  Pipeline
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Link, useLocation } from "react-router-dom";
@@ -96,7 +99,7 @@ const Sidebar: React.FC = () => {
         </div>
         <ul className="space-y-1 mb-8">
           <SidebarItem icon={Home} label="Overview" to="/" active={currentPath === "/"} />
-          <SidebarItem icon={PieChart} label="Reports" to="/reports" active={currentPath === "/reports"} />
+          <SidebarItem icon={FileText} label="Reports" to="/reports" active={currentPath === "/reports"} />
           <SidebarItem icon={Bell} label="Alerts" to="/alerts" active={currentPath === "/alerts"} />
         </ul>
 
@@ -106,7 +109,7 @@ const Sidebar: React.FC = () => {
         <ul className="space-y-1 mb-8">
           <SidebarItem icon={ShoppingCart} label="Orders" to="/orders" active={currentPath === "/orders"} />
           <SidebarItem icon={Users} label="Customers" to="/customers" active={currentPath === "/customers"} />
-          <SidebarItem icon={Target} label="Pipelines" to="/pipelines" active={currentPath === "/pipelines"} />
+          <SidebarItem icon={Pipeline} label="Pipelines" to="/pipelines" active={currentPath === "/pipelines"} />
         </ul>
 
         <div className="mb-2 text-xs font-medium text-gray-500 uppercase tracking-wider px-3">
