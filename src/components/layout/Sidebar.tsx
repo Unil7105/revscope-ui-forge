@@ -1,4 +1,3 @@
-
 import React from "react";
 import { 
   BarChart, 
@@ -40,7 +39,6 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
           active ? "sidebar-item-active" : "sidebar-item-inactive"
         )}
       >
-        {/* Active state marker - visible vertical bar */}
         {active && (
           <div className="absolute left-0 top-1 bottom-1 w-1.5 bg-white rounded-r-full shadow-[0_0_8px_rgba(255,255,255,0.5)]"></div>
         )}
@@ -65,7 +63,6 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
           </span>
         </div>
         
-        {/* Background highlight effects for active state */}
         {active && (
           <>
             <div className="absolute inset-0 bg-gradient-to-r from-rs-blue to-rs-indigo opacity-100"></div>
@@ -84,7 +81,6 @@ const Sidebar: React.FC = () => {
   
   return (
     <div className="bg-white border-r border-slate-200/70 w-64 flex flex-col h-full overflow-hidden shadow-sm">
-      {/* Logo */}
       <div className="p-4 border-b border-slate-200/70">
         <Link to="/" className="flex items-center gap-2 group">
           <div className="bg-gradient-to-br from-rs-blue to-rs-indigo text-white p-1.5 rounded-md shadow-sm group-hover:shadow-md group-hover:shadow-rs-blue/20 transition-all duration-300 group-hover:scale-105">
@@ -94,14 +90,12 @@ const Sidebar: React.FC = () => {
         </Link>
       </div>
 
-      {/* Navigation */}
       <nav className="flex-1 px-3 py-4 overflow-y-auto">
         <div className="mb-2 text-xs font-medium text-gray-500 uppercase tracking-wider px-3">
           Dashboard
         </div>
         <ul className="space-y-1 mb-8">
           <SidebarItem icon={Home} label="Overview" to="/" active={currentPath === "/"} />
-          <SidebarItem icon={BarChart} label="Analytics" to="/analytics" active={currentPath === "/analytics"} />
           <SidebarItem icon={PieChart} label="Reports" to="/reports" active={currentPath === "/reports"} />
           <SidebarItem icon={Bell} label="Alerts" to="/alerts" active={currentPath === "/alerts"} />
         </ul>
@@ -124,7 +118,6 @@ const Sidebar: React.FC = () => {
         </ul>
       </nav>
 
-      {/* User account section */}
       <div className="p-4 border-t border-slate-200/70 bg-white/50 transition-colors duration-300 hover:bg-white/80">
         <button className="flex items-center w-full gap-3 px-3 py-2 rounded-md text-sm text-gray-700 hover:bg-gray-100 hover:shadow-sm transition-all duration-200 group hover:scale-[1.02]">
           <div className="h-9 w-9 rounded-full bg-gradient-to-br from-rs-blue/10 to-rs-indigo/10 border border-rs-blue/20 flex items-center justify-center text-gray-700 font-medium shadow-sm group-hover:border-rs-blue/40 transition-colors group-hover:shadow-md">
